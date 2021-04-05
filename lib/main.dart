@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_travel/src/theme/style.dart';
-import 'package:my_travel/src/ui/screens/home_screen.dart';
+import 'package:my_travel/src/ui/screens/list_countries.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My Travel',
       theme: appTheme(),
-      home: SafeArea(child: HomeScreen(title: 'My Travel')),
+      home: SafeArea(child: ListCountries(title: 'My Travel')),
     );
   }
 }
