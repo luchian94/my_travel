@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:my_travel/src/ui/models/country_model.dart';
 import 'package:my_travel/src/ui/models/days_until_model.dart';
-import 'package:my_travel/src/ui/widgets/add-travel-dialog.dart';
+import 'package:my_travel/src/ui/screens/add-travel-dialog.dart';
 import 'package:my_travel/src/utils/utils.dart';
 
 import 'country_detail.dart';
@@ -146,7 +146,7 @@ class ListCountries extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          date != null ? DateFormat('dd-MM-yyyy').format(DateTime.parse(date)) : '',
+                          date != null ? DateFormat('dd MMM yyyy').format(DateTime.parse(date)) : '',
                           style: new TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w100,

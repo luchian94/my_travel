@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class LightInput extends StatelessWidget {
+class TextInput extends StatelessWidget {
   final String label;
   final String placeholder;
   final bool readonly;
   final TextEditingController controller;
 
-  LightInput({
+  TextInput({
     Key key,
     this.label,
     this.placeholder,

@@ -7,7 +7,7 @@ Color hexToColor(String code) {
 }
 
 DaysUntil getDaysUntil(String date) {
-  var day = date != null ? DateTime.parse(date) : null;
+  var day = date != '' && date != null ? DateTime.parse(date) : DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()));
   var dateToday = DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()));
   var daysNumber = day.difference(dateToday).inDays;
 
