@@ -4,6 +4,7 @@ class TextInput extends StatelessWidget {
   final String label;
   final String placeholder;
   final bool readonly;
+  final ValueChanged<String> valueChanged;
   final TextEditingController controller;
 
   TextInput({
@@ -11,6 +12,7 @@ class TextInput extends StatelessWidget {
     this.label,
     this.placeholder,
     this.readonly = false,
+    this.valueChanged,
     this.controller
   }) : super(key: key);
 
@@ -20,6 +22,7 @@ class TextInput extends StatelessWidget {
       style: TextStyle(color: Colors.grey),
       readOnly: readonly,
       controller: controller,
+      onChanged: valueChanged,
       decoration: InputDecoration(
         labelStyle: TextStyle(color: Colors.grey),
         hintStyle: TextStyle(color: Colors.grey),
@@ -37,13 +40,7 @@ class TextInput extends StatelessWidget {
             width: 2.0,
           ),
         ),
-      ),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter some text';
-        }
-        return null;
-      },
+      )
     );
   }
 }

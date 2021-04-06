@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:my_travel/src/ui/models/country_model.dart';
 import 'package:my_travel/src/ui/models/days_until_model.dart';
-import 'package:my_travel/src/ui/screens/add-travel-dialog.dart';
+import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-dialog.dart';
 import 'package:my_travel/src/utils/utils.dart';
 
 import 'country_detail.dart';

@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+typedef DateChangeCallback(DateTime date);
+
 class DateInput extends StatefulWidget {
   final String label;
   final String placeholder;
   final bool readonly;
   final TextEditingController controller;
   final DateTime initialDate;
+  final DateChangeCallback onDateChange;
 
-  DateInput(
-      {Key key,
-      this.label,
-      this.placeholder,
-      this.readonly = false,
-      this.controller,
-      this.initialDate = null
-      })
-      : super(key: key);
+  DateInput({
+    Key key,
+    this.label,
+    this.placeholder,
+    this.readonly = false,
+    this.controller,
+    this.onDateChange,
+    this.initialDate,
+  }) : super(key: key);
 
   @override
   _DateInputState createState() => _DateInputState();
@@ -24,7 +27,7 @@ class DateInput extends StatefulWidget {
 
 class _DateInputState extends State<DateInput> {
   TextEditingController datePickerController;
-  DateTime selectedDate = null;
+  DateTime selectedDate;
 
   @override
   void initState() {
@@ -43,17 +46,22 @@ class _DateInputState extends State<DateInput> {
         initialDate: selectedDate,
         firstDate: DateTime(2001),
         lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         widget.controller.text =
             DateFormat('dd-MM-yyyy').format(picked.toLocal());
         selectedDate = picked;
+        if (widget.onDateChange != null) {
+          widget.onDateChange(picked);
+        }
       });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    selectedDate = widget.initialDate != null ? widget.initialDate : DateTime.now();
+    selectedDate =
+        widget.initialDate != null ? widget.initialDate : DateTime.now();
     return Row(
       children: [
         Expanded(
