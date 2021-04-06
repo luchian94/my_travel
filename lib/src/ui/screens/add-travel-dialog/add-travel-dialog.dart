@@ -172,7 +172,7 @@ class AddTravelDatepicker extends ViewModelWidget<AddTravelModel> {
   final TextEditingController controller;
 
   const AddTravelDatepicker({Key key, this.controller})
-      : super(key: key, reactive: false);
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, AddTravelModel model) {
