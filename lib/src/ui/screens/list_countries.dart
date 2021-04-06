@@ -13,14 +13,13 @@ import 'country_detail.dart';
 class ListCountries extends StatelessWidget {
   final String title;
   final String country;
-  final String date;
+  final DateTime date;
 
   ListCountries({
     Key key,
     this.title,
     this.country = 'Germany',
-    this.date = '2021-04-06',
-  }) : super(key: key);
+  }) : date = DateTime(2021, 4, 6);
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +122,7 @@ class ListCountries extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 2.0),
                           child: Text(
-                            daysUntil.time,
+                            daysUntil.expireLabel,
                             style: new TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w100,
@@ -146,7 +145,7 @@ class ListCountries extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          date != null ? DateFormat('dd MMM yyyy').format(DateTime.parse(date)) : '',
+                          date != null ? DateFormat('dd MMM yyyy').format(date) : '',
                           style: new TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w100,

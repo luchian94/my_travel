@@ -57,7 +57,7 @@ class CountryDetail extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(
-                            daysUntil.time,
+                            daysUntil.expireLabel,
                             style: new TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w100,

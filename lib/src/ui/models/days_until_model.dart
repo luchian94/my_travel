@@ -1,6 +1,6 @@
 class DaysUntil {
   String days;
-  String time;
+  String expireLabel;
 
-  DaysUntil({this.days, this.time});
+  DaysUntil({this.days, this.expireLabel});
 }

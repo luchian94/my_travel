@@ -55,8 +55,6 @@ class NewTravelFormState extends State<NewTravelForm> {
 
   @override
   Widget build(BuildContext context) {
-    DaysUntil daysUntil = getDaysUntil(dateController.text);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -131,30 +129,7 @@ class NewTravelFormState extends State<NewTravelForm> {
                 ]),
                 child: Column(
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          daysUntil.days,
-                          style: new TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w100,
-                            fontSize: 30.0,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 2.0),
-                          child: Text(
-                            daysUntil.time,
-                            style: new TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w100,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                    AddTravelExpireDateLabel(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -248,3 +223,39 @@ class AddTravelDateValueLabel extends ViewModelWidget<AddTravelModel> {
     );
   }
 }
+
+class AddTravelExpireDateLabel extends ViewModelWidget<AddTravelModel> {
+
+  const AddTravelExpireDateLabel({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, AddTravelModel model) {
+    DaysUntil daysUntil = getDaysUntil(model.selectedDate);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          daysUntil.days,
+          style: new TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w100,
+            fontSize: 30.0,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 2.0),
+          child: Text(
+            daysUntil.expireLabel,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w100,
+              fontSize: 15.0,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
