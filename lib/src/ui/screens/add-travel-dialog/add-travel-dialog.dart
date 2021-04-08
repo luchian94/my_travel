@@ -10,6 +10,7 @@ import 'package:my_travel/src/ui/widgets/date_input.dart';
 import 'package:my_travel/src/ui/widgets/text_input.dart';
 import 'package:my_travel/src/utils/utils.dart';
 import 'package:stacked/stacked.dart';
+import 'package:photo_view/photo_view.dart';
 
 class FullScreenDialog extends StatelessWidget {
   @override
@@ -100,11 +101,34 @@ class NewTravelFormState extends State<NewTravelForm> {
             ),
           ),
         ),
-        AddTravelImage()
+        AddTravelImage(),
+        ImageViewer()
       ],
     );
   }
 }
+class ImageViewer extends ViewModelWidget<AddTravelModel> {
+
+  const ImageViewer({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, AddTravelModel model) {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      child: ClipRect(
+        child: PhotoView(
+          controller: model.controller,
+          initialScale: PhotoViewComputedScale.covered,
+          minScale: PhotoViewComputedScale.covered * 1.0,
+          imageProvider: model.pickedImage != null ? FileImage(model.pickedImage) : NetworkImage(
+              'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
+        ),
+      ),
+    );
+  }
+}
+
 
 class AddTravelImage extends ViewModelWidget<AddTravelModel> {
   final picker = ImagePicker();
