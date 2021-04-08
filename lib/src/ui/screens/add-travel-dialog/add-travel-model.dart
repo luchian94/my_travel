@@ -33,5 +33,6 @@ class AddTravelModel extends BaseViewModel {
 
   void listener(PhotoViewControllerValue value){
     print(value.scale);
+    print(value.position);
   }
 }

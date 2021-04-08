@@ -119,8 +119,8 @@ class ImageViewer extends ViewModelWidget<AddTravelModel> {
       child: ClipRect(
         child: PhotoView(
           controller: model.controller,
-          initialScale: PhotoViewComputedScale.covered,
-          minScale: PhotoViewComputedScale.covered * 1.0,
+          initialScale: PhotoViewComputedScale.contained,
+          minScale: PhotoViewComputedScale.contained,
           imageProvider: model.pickedImage != null ? FileImage(model.pickedImage) : NetworkImage(
               'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
         ),
