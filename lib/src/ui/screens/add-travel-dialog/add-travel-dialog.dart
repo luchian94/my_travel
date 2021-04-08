@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_travel/src/ui/models/days_until_model.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-model.dart';
@@ -97,54 +100,86 @@ class NewTravelFormState extends State<NewTravelForm> {
             ),
           ),
         ),
-        Container(
-          height: 180,
-          width: double.maxFinite,
-          child: Card(
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            semanticContainer: true,
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            shape: ContinuousRectangleBorder(borderRadius: BorderRadius.zero),
+        AddTravelImage()
+      ],
+    );
+  }
+}
+
+class AddTravelImage extends ViewModelWidget<AddTravelModel> {
+  final picker = ImagePicker();
+
+  AddTravelImage({
+    Key key,
+  }) : super(key: key);
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      return File(pickedFile.path);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context, AddTravelModel model) {
+    return Container(
+      height: 180,
+      width: double.maxFinite,
+      child: Card(
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        semanticContainer: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: ContinuousRectangleBorder(borderRadius: BorderRadius.zero),
+        child: InkWell(
+          onTap: () async {
+            File image = await getImage();
+            model.pickedImage = image;
+          },
+          child: Container(
+            alignment: Alignment.bottomLeft,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  //image: img.image,
+                  image: model.pickedImage != null ? FileImage(model.pickedImage) : NetworkImage(
+                      'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
+                  fit: BoxFit.fill,
+                  alignment: Alignment.topCenter),
+            ),
             child: Container(
-              alignment: Alignment.bottomLeft,
+              width: double.maxFinite,
+              height: 66,
+              padding: EdgeInsets.only(
+                  left: 15.0, top: 5.0, bottom: 5.0, right: 5.0),
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                      //image: img.image,
-                      image: NetworkImage(
-                          'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
-                      fit: BoxFit.fill,
-                      alignment: Alignment.topCenter)),
-              child: Container(
-                width: double.maxFinite,
-                height: 66,
-                padding: EdgeInsets.only(
-                    left: 15.0, top: 5.0, bottom: 5.0, right: 5.0),
-                decoration: BoxDecoration(boxShadow: [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black12.withOpacity(0.6),
                     spreadRadius: 5,
                     blurRadius: 7,
                     offset: Offset(0, 3), // changes position of shadow
                   ),
-                ]),
-                child: Column(
-                  children: [
-                    AddTravelExpireDateLabel(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        AddTravelCountryValueLabel(),
-                        AddTravelDateValueLabel(),
-                      ],
-                    ),
-                  ],
-                ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  AddTravelExpireDateLabel(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      AddTravelCountryValueLabel(),
+                      AddTravelDateValueLabel(),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }
@@ -171,8 +206,7 @@ class CountryInput extends ViewModelWidget<AddTravelModel> {
 class AddTravelDatepicker extends ViewModelWidget<AddTravelModel> {
   final TextEditingController controller;
 
-  const AddTravelDatepicker({Key key, this.controller})
-      : super(key: key);
+  const AddTravelDatepicker({Key key, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context, AddTravelModel model) {
@@ -225,7 +259,6 @@ class AddTravelDateValueLabel extends ViewModelWidget<AddTravelModel> {
 }
 
 class AddTravelExpireDateLabel extends ViewModelWidget<AddTravelModel> {
-
   const AddTravelExpireDateLabel({Key key}) : super(key: key);
 
   @override
@@ -258,4 +291,3 @@ class AddTravelExpireDateLabel extends ViewModelWidget<AddTravelModel> {
     );
   }
 }
-
