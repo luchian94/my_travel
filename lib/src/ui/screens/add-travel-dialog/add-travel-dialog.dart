@@ -119,6 +119,9 @@ class ImageViewer extends ViewModelWidget<AddTravelModel> {
       child: ClipRect(
         child: PhotoView(
           controller: model.controller,
+          onTapUp: (context, details, value) {
+            print(value);
+          },
           initialScale: PhotoViewComputedScale.contained,
           minScale: PhotoViewComputedScale.contained,
           imageProvider: model.pickedImage != null ? FileImage(model.pickedImage) : NetworkImage(
