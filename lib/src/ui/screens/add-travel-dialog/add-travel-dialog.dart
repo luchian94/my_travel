@@ -26,7 +26,8 @@ class FullScreenDialog extends StatelessWidget {
                   child: Center(
                     child: Text('Aggiungi viaggio',
                         style: GoogleFonts.lobster(
-                            textStyle: TextStyle(fontSize: 24.0, color: Colors.white))),
+                            textStyle: TextStyle(
+                                fontSize: 24.0, color: Colors.white))),
                   ),
                 ),
                 IconButton(icon: Icon(Icons.save), onPressed: () {})
@@ -140,7 +141,6 @@ class AddTravelDatepicker extends HookViewModelWidget<AddTravelModel> {
 }
 
 class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
-
   const CountryEditPreview({Key key});
 
   @override
@@ -157,6 +157,7 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
             showDialog(
               context: contextTravelModel,
               builder: (BuildContext context) => BuildPopupDialog(
+                model: model,
                 countryName: model.countryValue,
                 date: model.selectedDate,
                 img: img,
@@ -167,12 +168,18 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
 }
 
 class BuildPopupDialog extends StatelessWidget {
+  final AddTravelModel model;
   final String countryName;
   final DateTime date;
   final Image img;
 
-  const BuildPopupDialog({Key key, this.countryName, this.date, this.img})
-      : super(key: key);
+  const BuildPopupDialog({
+    Key key,
+    this.model,
+    this.countryName,
+    this.date,
+    this.img,
+  }) : super(key: key);
 
   /*final picker = ImagePicker();
 
@@ -188,79 +195,76 @@ class BuildPopupDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<AddTravelModel>.nonReactive(
-        viewModelBuilder: () => AddTravelModel(),
-        builder: (context, model, child) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            contentPadding: const EdgeInsets.all(0.0),
-            content: new Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                InkWell(
-                  onTap: () async {
-                    //File image = await getImage();
-                    //model.pickedImage = image;
-                    Navigator.of(context).pop();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.white,
-                              width: 1.0,
-                            ),
-                          ),
-                        ),
-                        child: Text("Carica Immagine",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ))),
-                  ),
-                ),
-                MoveImage(),
-                InkWell(
-                  onTap: () async {
-                    Navigator.of(context).pop();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => CountryDetail(
-                        country:
-                            Country(name: countryName, date: date, img: img),
+    return AlertDialog(
+      backgroundColor: Colors.black,
+      contentPadding: const EdgeInsets.all(0.0),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          InkWell(
+            onTap: () async {
+              //File image = await getImage();
+              //model.pickedImage = image;
+              Navigator.of(context).pop();
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.white,
+                        width: 1.0,
                       ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: Text("Sposta Immagine Dettaglio",
-                          style: TextStyle(
-                            color: Colors.white,
-                          )),
                     ),
                   ),
-                ),
-              ],
+                  child: Text("Carica Immagine",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ))),
             ),
-          );
-        });
+          ),
+          MoveImage(model),
+          InkWell(
+            onTap: () async {
+              Navigator.of(context).pop();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => CountryDetail(
+                  country: Country(name: countryName, date: date, img: img),
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Text("Sposta Immagine Dettaglio",
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
-class MoveImage extends ViewModelWidget<AddTravelModel> {
-  const MoveImage({Key key});
+class MoveImage extends StatelessWidget {
+  final AddTravelModel model;
 
-  Widget build(BuildContext context, AddTravelModel model) {
+  const MoveImage(this.model);
+
+  Widget build(BuildContext context) {
     return InkWell(
         onTap: () async {
-          Navigator.of(context).pop();
           model.isEdit = true;
+          Navigator.of(context).pop();
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
