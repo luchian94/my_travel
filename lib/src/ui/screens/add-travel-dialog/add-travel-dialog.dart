@@ -220,6 +220,7 @@ class BuildPopupDialog extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => CountryDetail(
+                  isEdit: true,
                   country: Country(name: countryName, date: date, img: img),
                 )),
               );
