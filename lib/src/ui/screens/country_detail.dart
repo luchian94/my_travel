@@ -25,8 +25,7 @@ class CountryDetail extends StatelessWidget {
               initialScale: PhotoViewComputedScale.covered,
               minScale: PhotoViewComputedScale.covered,
               imageProvider: country?.img != null
-                  ? NetworkImage(
-                  'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg')
+                  ? country.img
                   : NetworkImage(
                   'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
             ),

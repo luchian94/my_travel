@@ -217,11 +217,11 @@ class BuildPopupDialog extends StatelessWidget {
           InkWell(
             onTap: () async {
               Navigator.of(context).pop();
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => CountryDetail(
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CountryDetail(
                   country: Country(name: countryName, date: date, img: img),
-                ),
+                )),
               );
             },
             child: Padding(
