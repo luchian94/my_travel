@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Country {
-  final String country;
+  final String name;
   final DateTime date;
   final Image img;
 
-  const Country({this.country, this.date, this.img});
+  const Country({this.name, this.date, this.img});
 }

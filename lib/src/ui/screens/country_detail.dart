@@ -80,7 +80,7 @@ class CountryDetail extends StatelessWidget {
                 ),
 
                 Text(
-                  country?.country ?? '',
+                  country?.name ?? '',
                   style: new TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w300,

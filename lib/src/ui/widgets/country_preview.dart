@@ -10,15 +10,19 @@ import 'package:stacked/stacked.dart';
 class CountryPreview extends StatelessWidget {
   final Country country;
   final Function onTapped;
-  bool isEdit;
+  final bool isEdit;
 
-  CountryPreview({Key key, this.country, this.isEdit = false, this.onTapped})
-      : super(key: key);
+  CountryPreview({
+    Key key,
+    this.country,
+    this.isEdit = false,
+    this.onTapped,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    DaysUntil daysUntil =
-        country?.date != null ? getDaysUntil(country.date) : null;
+    DaysUntil daysUntil = country?.date != null ? getDaysUntil(country.date) : null;
+
     return InkWell(
       onTap: onTapped,
       child: Stack(
@@ -40,12 +44,7 @@ class CountryPreview extends StatelessWidget {
               ),
             ),
           ),
-          if (isEdit)
-          Positioned(
-            top: 10,
-            right: 10,
-            child: ConfirmMove()
-          ),
+          if (isEdit) Positioned(top: 10, right: 10, child: ConfirmMove()),
           Container(
             width: double.maxFinite,
             height: 66,
@@ -90,7 +89,7 @@ class CountryPreview extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      country.country ?? '',
+                      country.name ?? '',
                       style: new TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w300,

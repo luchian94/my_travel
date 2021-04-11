@@ -65,7 +65,7 @@ class ListCountries extends StatelessWidget {
 
     return CountryPreview(
         country: Country(
-            country: country,
+            name: country,
             date: date,
             img: img
         ),
@@ -74,7 +74,7 @@ class ListCountries extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => CountryDetail(
               country: Country(
-                  country: country,
+                  name: country,
                   date: date,
                   img: img
               ),
