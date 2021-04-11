@@ -26,8 +26,7 @@ class FullScreenDialog extends StatelessWidget {
                   child: Center(
                     child: Text('Aggiungi viaggio',
                         style: GoogleFonts.lobster(
-                            textStyle: TextStyle(
-                                fontSize: 24.0, color: Colors.white))),
+                            textStyle: TextStyle(fontSize: 24.0, color: Colors.white))),
                   ),
                 ),
                 IconButton(icon: Icon(Icons.save), onPressed: () {})
@@ -54,7 +53,6 @@ class NewTravelForm extends StatefulWidget {
 
 class NewTravelFormState extends State<NewTravelForm> {
   final _formKey = GlobalKey<FormState>();
-  final dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +81,7 @@ class NewTravelFormState extends State<NewTravelForm> {
                   ),
                 ),
               ),
-              child: AddTravelDatepicker(
-                controller: dateController,
-              ),
+              child: AddTravelDatepicker(),
             )
           ]),
         ),
@@ -124,17 +120,17 @@ class CountryInput extends HookViewModelWidget<AddTravelModel> {
   }
 }
 
-class AddTravelDatepicker extends ViewModelWidget<AddTravelModel> {
-  final TextEditingController controller;
-
-  const AddTravelDatepicker({Key key, this.controller}) : super(key: key);
+class AddTravelDatepicker extends HookViewModelWidget<AddTravelModel> {
+  const AddTravelDatepicker({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, AddTravelModel model) {
+  Widget buildViewModelWidget(BuildContext context, AddTravelModel model) {
+    TextEditingController dateController = useTextEditingController();
+
     return DateInput(
       label: 'Data',
       readonly: true,
-      controller: controller,
+      controller: dateController,
       initialDate: model.selectedDate,
       onDateChange: (date) {
         model.selectedDate = date;
@@ -144,9 +140,8 @@ class AddTravelDatepicker extends ViewModelWidget<AddTravelModel> {
 }
 
 class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
-  final String countryName;
 
-  const CountryEditPreview({Key key, this.countryName});
+  const CountryEditPreview({Key key});
 
   @override
   Widget build(BuildContext contextTravelModel, AddTravelModel model) {
@@ -155,14 +150,14 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
     Image img = Image.memory(base64Decode(base64string));
 
     return CountryPreview(
-        country: Country(name: countryName, date: model.selectedDate, img: img),
+        country: Country(name: model.countryValue, date: model.selectedDate, img: img),
         isEdit: model.isEdit,
         onTapped: () {
           if (model.isEdit == false)
             showDialog(
               context: contextTravelModel,
               builder: (BuildContext context) => BuildPopupDialog(
-                countryName: countryName,
+                countryName: model.countryValue,
                 date: model.selectedDate,
                 img: img,
               ),
