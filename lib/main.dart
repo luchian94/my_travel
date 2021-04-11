@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/theme/style.dart';
 import 'package:my_travel/src/ui/screens/list_countries.dart';
 
 void main() {
+  setupLocator();
+
   runApp(MyApp());
 }
 

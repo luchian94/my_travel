@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:my_travel/src/ui/models/country_model.dart';
 import 'package:my_travel/src/ui/models/days_until_model.dart';
 import 'package:my_travel/src/utils/utils.dart';
@@ -38,8 +37,7 @@ class CountryDetail extends StatelessWidget {
           decoration: BoxDecoration(
               image: country?.img != null ?
               DecorationImage(
-                  image: country.img.image,
-                  // image: NetworkImage('https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
+                  image: country.img,
                   fit: BoxFit.cover,
                   alignment: Alignment.topCenter) : null),
           child: Container(

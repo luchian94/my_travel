@@ -37,8 +37,7 @@ class CountryPreview extends StatelessWidget {
                 minScale: PhotoViewComputedScale.covered,
                 disableGestures: !isEdit,
                 imageProvider: country?.img != null
-                    ? NetworkImage(
-                        'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg')
+                    ? country.img
                     : NetworkImage(
                         'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
               ),
