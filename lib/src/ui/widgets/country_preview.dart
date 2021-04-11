@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_travel/src/ui/models/country_model.dart';
 import 'package:my_travel/src/ui/models/days_until_model.dart';
+import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-model.dart';
 import 'package:my_travel/src/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:stacked/stacked.dart';
 
 class CountryPreview extends StatelessWidget {
   final Country country;
   final Function onTapped;
+  bool isEdit;
 
-  CountryPreview({Key key, this.country, this.onTapped}) : super(key: key);
+  CountryPreview({Key key, this.country, this.isEdit = false, this.onTapped})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +31,20 @@ class CountryPreview extends StatelessWidget {
               child: PhotoView(
                 initialScale: PhotoViewComputedScale.covered,
                 minScale: PhotoViewComputedScale.covered,
-                disableGestures: true,
+                disableGestures: !isEdit,
                 imageProvider: country?.img != null
                     ? NetworkImage(
-                    'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg')
+                        'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg')
                     : NetworkImage(
                         'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
               ),
             ),
+          ),
+          if (isEdit)
+          Positioned(
+            top: 10,
+            right: 10,
+            child: ConfirmMove()
           ),
           Container(
             width: double.maxFinite,
@@ -103,6 +113,28 @@ class CountryPreview extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ConfirmMove extends ViewModelWidget<AddTravelModel> {
+  const ConfirmMove({Key key});
+
+  Widget build(BuildContext context, AddTravelModel model) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: IconButton(
+        icon: Icon(Icons.check),
+        color: Colors.white,
+        onPressed: () {
+          model.isEdit = false;
+        },
       ),
     );
   }
