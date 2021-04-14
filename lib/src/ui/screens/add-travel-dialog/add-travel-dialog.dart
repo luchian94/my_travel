@@ -228,12 +228,12 @@ class BuildPopupDialog extends StatelessWidget {
           InkWell(
             onTap: () async {
               Navigator.of(context).pop();
-              Navigator.push(
+              var result = await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => CountryDetail(
                     isEdit: true,
-                    country: Travel(
+                    travel: Travel(
                       countryName: countryName,
                       date: date,
                       img: img,
@@ -241,15 +241,21 @@ class BuildPopupDialog extends StatelessWidget {
                   ),
                 ),
               );
+              if (result != null) {
+                model.imgScale = result['imgScale'];
+                model.imgPosition = result['imgPosition'];
+              }
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: Text("Sposta Immagine Dettaglio",
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
+                child: Text(
+                  "Sposta Immagine Dettaglio",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ),

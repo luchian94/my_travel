@@ -17,10 +17,10 @@ class AddTravelModel extends BaseViewModel {
   bool _isEdit = false;
   File _pickedImage;
 
-  double imgScale = 0.0;
+  double imgScale = 1.0;
   Offset imgPosition = Offset(0, 0);
 
-  double previewImgScale = 0.0;
+  double previewImgScale = 1.0;
   Offset previewImgPosition = Offset(0, 0);
 
   String get countryValue => _countryValue;
@@ -62,8 +62,8 @@ class AddTravelModel extends BaseViewModel {
       countryName: countryValue,
       img: memoryPickedImage,
       date: selectedDate,
-      scale: 1,
-      position: Offset(0, 0),
+      scale: imgScale,
+      position: imgPosition,
       previewScale: previewImgScale,
       previewPosition: previewImgPosition,
     );

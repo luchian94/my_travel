@@ -39,7 +39,7 @@ class TravelListBody extends ViewModelWidget<TravelListModel> {
               context,
               MaterialPageRoute(
                 builder: (context) => CountryDetail(
-                  country: travel,
+                  travel: travel,
                 ),
               ),
             );

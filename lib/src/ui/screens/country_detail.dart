@@ -4,15 +4,46 @@ import 'package:my_travel/src/models/days_until_model.dart';
 import 'package:my_travel/src/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
 
-class CountryDetail extends StatelessWidget {
-  final Travel country;
+class CountryDetail extends StatefulWidget {
+  final Travel travel;
   final bool isEdit;
 
-  CountryDetail({Key key, this.country, this.isEdit = false}) : super(key: key);
+  CountryDetail({Key key, this.travel, this.isEdit = false}) : super(key: key);
+
+  @override
+  _CountryDetailState createState() => _CountryDetailState();
+}
+
+class _CountryDetailState extends State<CountryDetail> {
+  PhotoViewController photoViewController;
+  double imgScale = 1.0;
+  Offset imgPosition;
+
+  @override
+  void initState() {
+    super.initState();
+    photoViewController = PhotoViewController()
+      ..outputStateStream.listen(listener);
+    if (widget.travel != null && widget.travel.position != null) {
+      photoViewController.position = widget.travel.position;
+    }
+  }
+
+  @override
+  void dispose() {
+    photoViewController.dispose();
+    super.dispose();
+  }
+
+  void listener(PhotoViewControllerValue value) {
+    imgScale = value.scale;
+    imgPosition = value.position;
+  }
 
   @override
   Widget build(BuildContext context) {
-    DaysUntil daysUntil = country?.date != null ? getDaysUntil(country.date) : null;
+    DaysUntil daysUntil =
+        widget.travel?.date != null ? getDaysUntil(widget.travel.date) : null;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -23,16 +54,34 @@ class CountryDetail extends StatelessWidget {
             constraints: BoxConstraints.expand(),
             child: ClipRect(
               child: PhotoView(
-                disableGestures: !isEdit,
-                initialScale: PhotoViewComputedScale.covered,
+                controller: photoViewController,
+                disableGestures: !widget.isEdit,
+                initialScale: widget.travel != null
+                    ? widget.travel.scale
+                    : PhotoViewComputedScale.covered,
                 minScale: PhotoViewComputedScale.covered,
-                imageProvider: country?.img != null
-                    ? country.img
+                imageProvider: widget.travel?.img != null
+                    ? widget.travel.img
                     : NetworkImage(
                         'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
               ),
             ),
           ),
+          if (widget.isEdit)
+            Positioned(
+              top: 10.0,
+              right: 10.0,
+              child: FloatingActionButton(
+                child: Icon(Icons.save),
+                onPressed: () {
+                  var returnValue = {
+                    'imgScale': imgScale,
+                    'imgPosition': imgPosition
+                  };
+                  Navigator.of(context).pop(returnValue);
+                },
+              ),
+            ),
           Container(
             height: 150,
             alignment: Alignment.center,
@@ -72,7 +121,7 @@ class CountryDetail extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    country?.countryName ?? '',
+                    widget.travel?.countryName ?? '',
                     style: new TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w300,
