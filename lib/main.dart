@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/theme/style.dart';
-import 'package:my_travel/src/ui/screens/list_countries.dart';
+import 'package:my_travel/src/ui/screens/travel-list/travel-list.dart';
 
 void main() {
   setupLocator();
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My Travel',
       theme: appTheme(),
-      home: SafeArea(child: ListCountries(title: 'My Travel')),
+      home: SafeArea(child: TravelList(title: 'My Travel')),
     );
   }
 }

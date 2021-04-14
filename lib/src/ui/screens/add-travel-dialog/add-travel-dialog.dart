@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_travel/src/ui/models/country_model.dart';
+import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-model.dart';
 import 'package:my_travel/src/ui/screens/country_detail.dart';
 import 'package:my_travel/src/ui/widgets/country_preview.dart';
@@ -28,7 +28,12 @@ class FullScreenDialog extends StatelessWidget {
                                 fontSize: 24.0, color: Colors.white))),
                   ),
                 ),
-                IconButton(icon: Icon(Icons.save), onPressed: () {})
+                IconButton(
+                  icon: Icon(Icons.save),
+                  onPressed: () async {
+                    model.saveTravel();
+                  },
+                )
               ],
             ),
           ),
@@ -143,13 +148,11 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
 
   @override
   Widget build(BuildContext contextTravelModel, AddTravelModel model) {
-
     return CountryPreview(
-        country: Country(
-            name: model.countryValue,
+        country: Travel(
+            countryName: model.countryValue,
             date: model.selectedDate,
-            img: model.memoryPickedImage
-        ),
+            img: model.memoryPickedImage),
         isEdit: model.isEdit,
         onTapped: () {
           if (model.isEdit == false)
@@ -219,10 +222,12 @@ class BuildPopupDialog extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CountryDetail(
-                  isEdit: true,
-                  country: Country(name: countryName, date: date, img: img),
-                )),
+                MaterialPageRoute(
+                    builder: (context) => CountryDetail(
+                          isEdit: true,
+                          country: Travel(
+                              countryName: countryName, date: date, img: img),
+                        )),
               );
             },
             child: Padding(

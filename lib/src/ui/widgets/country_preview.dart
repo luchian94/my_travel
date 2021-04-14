@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_travel/src/ui/models/country_model.dart';
-import 'package:my_travel/src/ui/models/days_until_model.dart';
+import 'package:my_travel/src/models/travel_model.dart';
+import 'package:my_travel/src/models/days_until_model.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-model.dart';
 import 'package:my_travel/src/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:stacked/stacked.dart';
 
 class CountryPreview extends StatelessWidget {
-  final Country country;
+  final Travel country;
   final Function onTapped;
   final bool isEdit;
 
@@ -88,7 +88,7 @@ class CountryPreview extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      country.name ?? '',
+                      country.countryName ?? '',
                       style: new TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w300,

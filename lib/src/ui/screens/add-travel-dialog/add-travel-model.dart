@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:my_travel/src/locator/locator.dart';
+import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/services/media_service.dart';
+import 'package:my_travel/src/services/travel_service.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:stacked/stacked.dart';
 
 class AddTravelModel extends BaseViewModel {
   MediaService _mediaService = locator<MediaService>();
+  TravelService _travelService = locator<TravelService>();
 
   String _countryValue;
   DateTime _selectedDate = DateTime.now();
@@ -49,6 +52,19 @@ class AddTravelModel extends BaseViewModel {
     if (picked != null) {
       pickedImage = picked;
     }
+  }
+
+  Future<void> saveTravel() async {
+    Travel travel = new Travel(
+      countryName: countryValue,
+      img: memoryPickedImage,
+      date: selectedDate,
+      scale: 1,
+      previewScale: 1,
+      position: Offset(0, 0),
+      previewPosition: Offset(0, 0),
+    );
+    await _travelService.saveTravel(travel);
   }
 
   void listener(PhotoViewControllerValue value){
