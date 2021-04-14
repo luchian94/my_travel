@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_travel/src/ui/models/country_model.dart';
+import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-dialog.dart';
 import 'package:my_travel/src/ui/widgets/country_preview.dart';
 
@@ -61,8 +61,8 @@ class ListCountries extends StatelessWidget {
     MemoryImage img = MemoryImage(base64Decode(base64string));
 
     return CountryPreview(
-        country: Country(
-            name: country,
+        country: Travel(
+            countryName: country,
             date: date,
             img: img
         ),
@@ -70,8 +70,8 @@ class ListCountries extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CountryDetail(
-              country: Country(
-                  name: country,
+              country: Travel(
+                  countryName: country,
                   date: date,
                   img: img
               ),

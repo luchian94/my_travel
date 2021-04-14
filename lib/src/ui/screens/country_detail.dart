@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_travel/src/ui/models/country_model.dart';
-import 'package:my_travel/src/ui/models/days_until_model.dart';
+import 'package:my_travel/src/models/travel_model.dart';
+import 'package:my_travel/src/models/days_until_model.dart';
 import 'package:my_travel/src/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
 
 class CountryDetail extends StatelessWidget {
-  final Country country;
+  final Travel country;
   final bool isEdit;
 
   CountryDetail({Key key, this.country, this.isEdit = false}) : super(key: key);
@@ -72,7 +72,7 @@ class CountryDetail extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    country?.name ?? '',
+                    country?.countryName ?? '',
                     style: new TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w300,
