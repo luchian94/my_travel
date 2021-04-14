@@ -39,6 +39,7 @@ class TravelService {
     if (travels.isEmpty) {
       travels.add(travel);
     } else {
+      travels.add(travel);
       // TODO: find travel -> if found update -> else add
     }
 
