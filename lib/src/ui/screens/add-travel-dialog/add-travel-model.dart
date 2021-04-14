@@ -17,8 +17,11 @@ class AddTravelModel extends BaseViewModel {
   bool _isEdit = false;
   File _pickedImage;
 
-  double previewScale = 0.0;
-  Offset previewPosition = Offset(0, 0);
+  double imgScale = 0.0;
+  Offset imgPosition = Offset(0, 0);
+
+  double previewImgScale = 0.0;
+  Offset previewImgPosition = Offset(0, 0);
 
   String get countryValue => _countryValue;
   DateTime get selectedDate => _selectedDate;
@@ -61,8 +64,8 @@ class AddTravelModel extends BaseViewModel {
       date: selectedDate,
       scale: 1,
       position: Offset(0, 0),
-      previewScale: previewScale,
-      previewPosition: previewPosition,
+      previewScale: previewImgScale,
+      previewPosition: previewImgPosition,
     );
     await _travelService.saveTravel(travel);
   }

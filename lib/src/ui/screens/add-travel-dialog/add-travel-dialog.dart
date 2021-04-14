@@ -159,10 +159,8 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
       onSave: () {
         model.isEdit = false;
       },
-      imgMoved: (Offset position) {
-        model.previewPosition = position;
-      },
-      imgScaleChanged: (double scale) => model.previewScale = scale,
+      imgMoved: (Offset position) => model.previewImgPosition = position,
+      imgScaleChanged: (double scale) => model.previewImgScale = scale,
       onTapped: () {
         if (model.isEdit == false)
           showDialog(
@@ -233,11 +231,15 @@ class BuildPopupDialog extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CountryDetail(
-                          isEdit: true,
-                          country: Travel(
-                              countryName: countryName, date: date, img: img),
-                        )),
+                  builder: (context) => CountryDetail(
+                    isEdit: true,
+                    country: Travel(
+                      countryName: countryName,
+                      date: date,
+                      img: img,
+                    ),
+                  ),
+                ),
               );
             },
             child: Padding(
