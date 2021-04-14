@@ -10,7 +10,7 @@ import 'package:my_travel/src/ui/widgets/text_input.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
-class FullScreenDialog extends StatelessWidget {
+class AddTravelDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AddTravelModel>.nonReactive(
@@ -31,7 +31,8 @@ class FullScreenDialog extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.save),
                   onPressed: () async {
-                    model.saveTravel();
+                    await model.saveTravel();
+                    Navigator.of(context).pop('refresh');
                   },
                 )
               ],
@@ -149,23 +150,32 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
   @override
   Widget build(BuildContext contextTravelModel, AddTravelModel model) {
     return CountryPreview(
-        country: Travel(
-            countryName: model.countryValue,
-            date: model.selectedDate,
-            img: model.memoryPickedImage),
-        isEdit: model.isEdit,
-        onTapped: () {
-          if (model.isEdit == false)
-            showDialog(
-              context: contextTravelModel,
-              builder: (BuildContext context) => BuildPopupDialog(
-                model: model,
-                countryName: model.countryValue,
-                date: model.selectedDate,
-                img: model.memoryPickedImage,
-              ),
-            );
-        });
+      travel: Travel(
+        countryName: model.countryValue,
+        date: model.selectedDate,
+        img: model.memoryPickedImage,
+      ),
+      isEdit: model.isEdit,
+      onSave: () {
+        model.isEdit = false;
+      },
+      imgMoved: (Offset position) {
+        model.previewPosition = position;
+      },
+      imgScaleChanged: (double scale) => model.previewScale = scale,
+      onTapped: () {
+        if (model.isEdit == false)
+          showDialog(
+            context: contextTravelModel,
+            builder: (BuildContext context) => BuildPopupDialog(
+              model: model,
+              countryName: model.countryValue,
+              date: model.selectedDate,
+              img: model.memoryPickedImage,
+            ),
+          );
+      },
+    );
   }
 }
 
@@ -254,30 +264,31 @@ class MoveImage extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () async {
-          model.isEdit = true;
-          Navigator.of(context).pop();
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            child: Text(
-              "Sposta Immagine",
-              style: TextStyle(
+      onTap: () async {
+        model.isEdit = true;
+        Navigator.of(context).pop();
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
                 color: Colors.white,
+                width: 1.0,
               ),
             ),
           ),
-        ));
+          child: Text(
+            "Sposta Immagine",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

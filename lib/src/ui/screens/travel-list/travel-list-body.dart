@@ -14,13 +14,26 @@ class TravelListBody extends ViewModelWidget<TravelListModel> {
     if (model.isBusy) {
       return CircularProgressIndicator();
     }
+    if (model.travels.isEmpty) {
+      return Center(
+        child: Text(
+          "Nessun viaggio. Clicca sul + per aggiungerne uno",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 22.0
+          ),
+        ),
+      );
+    }
     return ListView.builder(
       itemCount: model.travels.length,
       itemBuilder: (context, index) {
         Travel travel = model.travels[index];
 
         return CountryPreview(
-          country: travel,
+          travel: travel,
           onTapped: () {
             Navigator.push(
               context,

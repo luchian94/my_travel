@@ -7,24 +7,66 @@ import 'package:my_travel/src/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:stacked/stacked.dart';
 
-class CountryPreview extends StatelessWidget {
-  final Travel country;
+typedef ImgMovedCallback(Offset position);
+typedef ImgScaleChangedCallback(double scale);
+
+class CountryPreview extends StatefulWidget {
+  final Travel travel;
   final Function onTapped;
   final bool isEdit;
+  final Function onSave;
+  final ImgMovedCallback imgMoved;
+  final ImgScaleChangedCallback imgScaleChanged;
 
   CountryPreview({
     Key key,
-    this.country,
+    this.travel,
     this.isEdit = false,
     this.onTapped,
+    this.onSave,
+    this.imgMoved,
+    this.imgScaleChanged,
   }) : super(key: key);
 
   @override
+  _CountryPreviewState createState() => _CountryPreviewState();
+}
+
+class _CountryPreviewState extends State<CountryPreview> {
+  PhotoViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = PhotoViewController()
+      ..outputStateStream.listen(listener);
+    if (widget.travel != null && widget.travel.previewPosition != null) {
+      controller.position = widget.travel.previewPosition;
+    }
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void listener(PhotoViewControllerValue value) {
+    if (widget.imgMoved != null) {
+      widget.imgMoved(value.position);
+    }
+    if (widget.imgScaleChanged != null) {
+      widget.imgScaleChanged(value.scale);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    DaysUntil daysUntil = country?.date != null ? getDaysUntil(country.date) : null;
+    DaysUntil daysUntil =
+        widget.travel?.date != null ? getDaysUntil(widget.travel.date) : null;
 
     return InkWell(
-      onTap: onTapped,
+      onTap: widget.onTapped,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -33,17 +75,25 @@ class CountryPreview extends StatelessWidget {
             width: double.infinity,
             child: ClipRect(
               child: PhotoView(
-                initialScale: PhotoViewComputedScale.covered,
+                controller: controller,
+                initialScale: widget.travel != null ? widget.travel.previewScale : PhotoViewComputedScale.covered,
                 minScale: PhotoViewComputedScale.covered,
-                disableGestures: !isEdit,
-                imageProvider: country?.img != null
-                    ? country.img
+                disableGestures: !widget.isEdit,
+                imageProvider: widget.travel?.img != null
+                    ? widget.travel.img
                     : NetworkImage(
                         'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
               ),
             ),
           ),
-          if (isEdit) Positioned(top: 10, right: 10, child: ConfirmMove()),
+          if (widget.isEdit)
+            Positioned(
+              top: 10,
+              right: 10,
+              child: ConfirmMove(
+                onPressed: widget.onSave,
+              ),
+            ),
           Container(
             width: double.maxFinite,
             height: 66,
@@ -88,7 +138,7 @@ class CountryPreview extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      country.countryName ?? '',
+                      widget.travel.countryName ?? '',
                       style: new TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
@@ -96,8 +146,8 @@ class CountryPreview extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      country?.date != null
-                          ? DateFormat('dd MMM yyyy').format(country.date)
+                      widget.travel?.date != null
+                          ? DateFormat('dd MMM yyyy').format(widget.travel.date)
                           : '',
                       style: new TextStyle(
                         color: Colors.white,
@@ -117,7 +167,9 @@ class CountryPreview extends StatelessWidget {
 }
 
 class ConfirmMove extends ViewModelWidget<AddTravelModel> {
-  const ConfirmMove({Key key});
+  final Function onPressed;
+
+  const ConfirmMove({Key key, this.onPressed});
 
   Widget build(BuildContext context, AddTravelModel model) {
     return Container(
@@ -130,9 +182,7 @@ class ConfirmMove extends ViewModelWidget<AddTravelModel> {
       child: IconButton(
         icon: Icon(Icons.check),
         color: Colors.white,
-        onPressed: () {
-          model.isEdit = false;
-        },
+        onPressed: onPressed,
       ),
     );
   }

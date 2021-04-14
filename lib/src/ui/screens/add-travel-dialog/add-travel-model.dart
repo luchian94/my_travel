@@ -5,8 +5,8 @@ import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/services/media_service.dart';
 import 'package:my_travel/src/services/travel_service.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:stacked/stacked.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTravelModel extends BaseViewModel {
   MediaService _mediaService = locator<MediaService>();
@@ -16,12 +16,9 @@ class AddTravelModel extends BaseViewModel {
   DateTime _selectedDate = DateTime.now();
   bool _isEdit = false;
   File _pickedImage;
-  PhotoViewController controller;
 
-  AddTravelModel() {
-    controller = PhotoViewController()
-      ..outputStateStream.listen(listener);
-  }
+  double previewScale = 0.0;
+  Offset previewPosition = Offset(0, 0);
 
   String get countryValue => _countryValue;
   DateTime get selectedDate => _selectedDate;
@@ -55,20 +52,18 @@ class AddTravelModel extends BaseViewModel {
   }
 
   Future<void> saveTravel() async {
+    // await _travelService.clearJson(); // per svuotare il json
+    var uuid = Uuid();
     Travel travel = new Travel(
+      id: uuid.v1(),
       countryName: countryValue,
       img: memoryPickedImage,
       date: selectedDate,
       scale: 1,
-      previewScale: 1,
       position: Offset(0, 0),
-      previewPosition: Offset(0, 0),
+      previewScale: previewScale,
+      previewPosition: previewPosition,
     );
     await _travelService.saveTravel(travel);
-  }
-
-  void listener(PhotoViewControllerValue value){
-    // print(value.scale);
-    // print(value.position);
   }
 }

@@ -5,6 +5,7 @@ import 'package:my_travel/src/models/travel_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class TravelService {
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -14,6 +15,11 @@ class TravelService {
   Future<File> get _travelsJsonFile async {
     final path = await _localPath;
     return File('$path/travels.json');
+  }
+
+  Future<void> clearJson() async {
+    final file = await _travelsJsonFile;
+    file.delete();
   }
 
   Future<List<Travel>> getTravels() async {

@@ -34,14 +34,17 @@ class TravelList extends StatelessWidget {
               )),
           body: TravelListBody(),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              var result = await Navigator.push(
                 context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => FullScreenDialog(),
+                MaterialPageRoute<String>(
+                  builder: (BuildContext context) => AddTravelDialog(),
                   fullscreenDialog: true,
                 ),
               );
+              if (result == 'refresh') {
+                model.loadTravels();
+              }
             },
             elevation: 5,
             tooltip: 'Aggiungi viaggio',
