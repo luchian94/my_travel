@@ -52,4 +52,14 @@ class TravelService {
     var encodedTravels = jsonEncode(travels.map((e) => e.toJson()).toList());
     return file.writeAsString(encodedTravels);
   }
+
+  Future<void> deleteTravel(String travelId) async {
+    final file = await _travelsJsonFile;
+
+    List<Travel> travels = await getTravels();
+    travels.removeWhere((travel) => travel.id == travelId);
+
+    var encodedTravels = jsonEncode(travels.map((e) => e.toJson()).toList());
+    return file.writeAsString(encodedTravels);
+  }
 }

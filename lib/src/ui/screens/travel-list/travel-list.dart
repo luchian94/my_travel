@@ -32,7 +32,13 @@ class TravelList extends StatelessWidget {
                           TextStyle(fontSize: 34.0, color: Colors.white))),
                 ],
               )),
-          body: TravelListBody(),
+          body: TravelListBody(
+            onAction: (String action) {
+              if (action == 'refresh') {
+                model.loadTravels();
+              }
+            },
+          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               var result = await Navigator.push(

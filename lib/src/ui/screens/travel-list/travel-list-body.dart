@@ -7,7 +7,9 @@ import 'package:stacked/stacked.dart';
 import '../country_detail.dart';
 
 class TravelListBody extends ViewModelWidget<TravelListModel> {
-  const TravelListBody({Key key}) : super(key: key);
+  final Function onAction;
+
+  const TravelListBody({Key key, this.onAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context, TravelListModel model) {
@@ -34,15 +36,19 @@ class TravelListBody extends ViewModelWidget<TravelListModel> {
 
         return CountryPreview(
           travel: travel,
-          onTapped: () {
-            Navigator.push(
+          onTapped: () async {
+            String result = await Navigator.push(
               context,
-              MaterialPageRoute(
+              MaterialPageRoute<String>(
                 builder: (context) => CountryDetail(
+                  canDelete: true,
                   travel: travel,
                 ),
               ),
             );
+            if (result != null && this.onAction != null) {
+              this.onAction(result);
+            }
           },
         );
       },

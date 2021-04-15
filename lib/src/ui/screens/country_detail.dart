@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/models/days_until_model.dart';
+import 'package:my_travel/src/services/travel_service.dart';
 import 'package:my_travel/src/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
 
 class CountryDetail extends StatefulWidget {
   final Travel travel;
   final bool isEdit;
+  final bool canDelete;
 
-  CountryDetail({Key key, this.travel, this.isEdit = false}) : super(key: key);
+  CountryDetail(
+      {Key key, this.travel, this.isEdit = false, this.canDelete = false})
+      : super(key: key);
 
   @override
   _CountryDetailState createState() => _CountryDetailState();
@@ -67,21 +72,33 @@ class _CountryDetailState extends State<CountryDetail> {
               ),
             ),
           ),
-          if (widget.isEdit)
-            Positioned(
-              top: 10.0,
-              right: 10.0,
-              child: FloatingActionButton(
-                child: Icon(Icons.save),
-                onPressed: () {
-                  var returnValue = {
-                    'imgScale': imgScale,
-                    'imgPosition': imgPosition
-                  };
-                  Navigator.of(context).pop(returnValue);
-                },
-              ),
+          Positioned(
+            top: 10.0,
+            right: 10.0,
+            child: Row(
+              children: [
+                if (widget.isEdit)
+                  FloatingActionButton(
+                    child: Icon(Icons.save),
+                    onPressed: () {
+                      var returnValue = {
+                        'imgScale': imgScale,
+                        'imgPosition': imgPosition
+                      };
+                      Navigator.of(context).pop(returnValue);
+                    },
+                  ),
+                if (widget.canDelete == true)
+                  FloatingActionButton(
+                    child: Icon(Icons.delete),
+                    onPressed: () async {
+                      locator<TravelService>().deleteTravel(widget.travel.id);
+                      Navigator.of(context).pop('refresh');
+                    },
+                  ),
+              ],
             ),
+          ),
           Container(
             height: 150,
             alignment: Alignment.center,
