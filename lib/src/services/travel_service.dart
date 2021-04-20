@@ -45,8 +45,12 @@ class TravelService {
     if (travels.isEmpty) {
       travels.add(travel);
     } else {
-      travels.add(travel);
-      // TODO: find travel -> if found update -> else add
+      int travelIndex = travels.indexWhere((t) => t.id == travel.id);
+      if (travelIndex == -1) {
+        travels.add(travel);
+      } else {
+        travels[travelIndex] = travel;
+      }
     }
 
     var encodedTravels = jsonEncode(travels.map((e) => e.toJson()).toList());

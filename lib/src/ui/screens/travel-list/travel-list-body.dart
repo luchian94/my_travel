@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/models/travel_model.dart';
+import 'package:my_travel/src/services/travel_service.dart';
 import 'package:my_travel/src/ui/screens/travel-list/travel-list-model.dart';
 import 'package:my_travel/src/ui/widgets/country_preview.dart';
 import 'package:stacked/stacked.dart';
@@ -37,12 +39,23 @@ class TravelListBody extends ViewModelWidget<TravelListModel> {
         return CountryPreview(
           travel: travel,
           onTapped: () async {
-            String result = await Navigator.push(
+            dynamic result = await Navigator.push(
               context,
-              MaterialPageRoute<String>(
+              MaterialPageRoute(
                 builder: (context) => CountryDetail(
+                  isEdit: true,
                   canDelete: true,
                   travel: travel,
+                  onSaved: (savedData) async {
+                    if (savedData != null) {
+                      travel.scale = savedData['imgScale'];
+                      travel.position = savedData['imgPosition'];
+                      await locator<TravelService>().saveTravel(travel);
+                      if (this.onAction != null) {
+                        this.onAction('refresh');
+                      }
+                    }
+                  },
                 ),
               ),
             );

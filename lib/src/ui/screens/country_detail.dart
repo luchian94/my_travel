@@ -10,10 +10,15 @@ class CountryDetail extends StatefulWidget {
   final Travel travel;
   final bool isEdit;
   final bool canDelete;
+  final Function onSaved;
 
-  CountryDetail(
-      {Key key, this.travel, this.isEdit = false, this.canDelete = false})
-      : super(key: key);
+  CountryDetail({
+    Key key,
+    this.travel,
+    this.isEdit = false,
+    this.canDelete = false,
+    this.onSaved,
+  }) : super(key: key);
 
   @override
   _CountryDetailState createState() => _CountryDetailState();
@@ -79,20 +84,25 @@ class _CountryDetailState extends State<CountryDetail> {
               children: [
                 if (widget.isEdit)
                   FloatingActionButton(
+                    heroTag: "saveBtn",
                     child: Icon(Icons.save),
                     onPressed: () {
-                      var returnValue = {
-                        'imgScale': imgScale,
-                        'imgPosition': imgPosition
-                      };
-                      Navigator.of(context).pop(returnValue);
+                      if (widget.onSaved != null) {
+                        var returnValue = {
+                          'imgScale': imgScale,
+                          'imgPosition': imgPosition
+                        };
+                        widget.onSaved(returnValue);
+                      }
+                      Navigator.of(context).pop();
                     },
                   ),
                 if (widget.canDelete == true)
                   FloatingActionButton(
+                    heroTag: "deleteBtn",
                     child: Icon(Icons.delete),
                     onPressed: () async {
-                      locator<TravelService>().deleteTravel(widget.travel.id);
+                      await locator<TravelService>().deleteTravel(widget.travel.id);
                       Navigator.of(context).pop('refresh');
                     },
                   ),

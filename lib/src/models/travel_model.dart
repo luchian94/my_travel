@@ -5,15 +5,15 @@ import 'package:intl/intl.dart';
 
 class Travel {
   final String id;
-  final String countryName;
-  final DateTime date;
-  final MemoryImage img;
-  final double scale;
-  final double previewScale;
-  final Offset position;
-  final Offset previewPosition;
+  String countryName;
+  DateTime date;
+  MemoryImage img;
+  double scale;
+  double previewScale;
+  Offset position;
+  Offset previewPosition;
 
-  const Travel({
+  Travel({
     this.id,
     this.countryName,
     this.date,
