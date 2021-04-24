@@ -78,23 +78,20 @@ class _CountryDetailState extends State<CountryDetail> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              constraints: BoxConstraints.expand(),
-              child: ClipRect(
-                child: PhotoView(
-                  controller: photoViewController,
-                  disableGestures: !widget.isEdit,
-                  initialScale: detailTravel != null
-                      ? detailTravel.scale
-                      : PhotoViewComputedScale.covered,
-                  minScale: PhotoViewComputedScale.covered,
-                  imageProvider: detailTravel?.img != null
-                      ? detailTravel.img
-                      : NetworkImage(
-                          'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
+            if (detailTravel.img != null)
+              Container(
+                constraints: BoxConstraints.expand(),
+                child: ClipRect(
+                  child: PhotoView(
+                      controller: photoViewController,
+                      disableGestures: !widget.isEdit,
+                      initialScale: detailTravel != null
+                          ? detailTravel.scale
+                          : PhotoViewComputedScale.covered,
+                      minScale: PhotoViewComputedScale.covered,
+                      imageProvider: detailTravel.img),
                 ),
               ),
-            ),
             Container(
               width: double.maxFinite,
               height: 150,
@@ -180,24 +177,30 @@ class _CountryDetailState extends State<CountryDetail> {
                           dynamic result = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => AddTravelDialog(travel: detailTravel),
+                              builder: (BuildContext context) =>
+                                  AddTravelDialog(travel: detailTravel),
                               fullscreenDialog: true,
                             ),
                           );
-                          if (result != null && result['action'] == 'refresh' && result['data'] != null) {
+                          if (result != null &&
+                              result['action'] == 'refresh' &&
+                              result['data'] != null) {
                             setState(() {
                               detailTravel = result['data'];
                             });
                           }
                         },
-                        child: Icon(Icons.edit, color: Colors.white, size: 30.0),
+                        child:
+                            Icon(Icons.edit, color: Colors.white, size: 30.0),
                       ),
                       InkWell(
                         onTap: () async {
-                          await locator<TravelService>().deleteTravel(detailTravel.id);
+                          await locator<TravelService>()
+                              .deleteTravel(detailTravel.id);
                           Navigator.of(context).pop();
                         },
-                        child: Icon(Icons.delete, color: Colors.white, size: 30.0),
+                        child:
+                            Icon(Icons.delete, color: Colors.white, size: 30.0),
                       ),
                     ],
                   ),

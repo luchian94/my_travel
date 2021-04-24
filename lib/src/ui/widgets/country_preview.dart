@@ -38,8 +38,7 @@ class _CountryPreviewState extends State<CountryPreview> {
   @override
   void initState() {
     super.initState();
-    controller = PhotoViewController()
-      ..outputStateStream.listen(listener);
+    controller = PhotoViewController()..outputStateStream.listen(listener);
     if (widget.travel != null && widget.travel.previewPosition != null) {
       controller.position = widget.travel.previewPosition;
     }
@@ -70,22 +69,22 @@ class _CountryPreviewState extends State<CountryPreview> {
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Container(
-            height: 180,
-            width: double.infinity,
-            child: ClipRect(
-              child: PhotoView(
-                controller: controller,
-                initialScale: widget.travel != null ? widget.travel.previewScale : PhotoViewComputedScale.covered,
-                minScale: PhotoViewComputedScale.covered,
-                disableGestures: !widget.isEdit,
-                imageProvider: widget.travel?.img != null
-                    ? widget.travel.img
-                    : NetworkImage(
-                        'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
+          if (widget.travel.img != null)
+            Container(
+              height: 180,
+              width: double.infinity,
+              child: ClipRect(
+                child: PhotoView(
+                  controller: controller,
+                  initialScale: widget.travel != null
+                      ? widget.travel.previewScale
+                      : PhotoViewComputedScale.covered,
+                  minScale: PhotoViewComputedScale.covered,
+                  disableGestures: !widget.isEdit,
+                  imageProvider: widget.travel.img,
+                ),
               ),
             ),
-          ),
           if (widget.isEdit)
             Positioned(
               top: 10,

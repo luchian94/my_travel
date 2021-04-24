@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/services/media_service.dart';
@@ -41,7 +44,7 @@ class AddTravelModel extends BaseViewModel {
     notifyListeners();
   }
 
-  setTravelData(Travel travel) {
+  Future<void> setTravelData(Travel travel) async {
     if (travel != null) {
       _travelId = travel.id;
       _countryValue = travel.countryName;
@@ -54,7 +57,16 @@ class AddTravelModel extends BaseViewModel {
     } else {
       var uuid = Uuid();
       _travelId = uuid.v1();
+      _memoryPickedImage = await getPlaceholderImage();
+      notifyListeners();
     }
+  }
+
+  Future<MemoryImage> getPlaceholderImage() async {
+    Uint8List placeholderBytes = (await rootBundle.load('assets/images/placeholder.jpg'))
+        .buffer
+        .asUint8List();
+    return MemoryImage(placeholderBytes);
   }
 
   Future<void> pickImage() async {
