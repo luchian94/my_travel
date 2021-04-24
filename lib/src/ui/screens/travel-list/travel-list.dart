@@ -32,25 +32,16 @@ class TravelList extends StatelessWidget {
                           TextStyle(fontSize: 40.0, color: Colors.white))),
                 ],
               )),
-          body: TravelListBody(
-            onAction: (String action) {
-              if (action == 'refresh') {
-                model.loadTravels();
-              }
-            },
-          ),
+          body: TravelListBody(),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              dynamic result = await Navigator.push(
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) => AddTravelDialog(),
                   fullscreenDialog: true,
                 ),
               );
-              if (result != null && result['action'] == 'refresh') {
-                model.loadTravels();
-              }
             },
             elevation: 5,
             tooltip: 'Aggiungi viaggio',

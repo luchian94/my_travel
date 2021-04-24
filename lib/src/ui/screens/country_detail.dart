@@ -195,7 +195,7 @@ class _CountryDetailState extends State<CountryDetail> {
                       InkWell(
                         onTap: () async {
                           await locator<TravelService>().deleteTravel(detailTravel.id);
-                          Navigator.of(context).pop('refresh');
+                          Navigator.of(context).pop();
                         },
                         child: Icon(Icons.delete, color: Colors.white, size: 30.0),
                       ),

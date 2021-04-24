@@ -3,8 +3,12 @@ import 'dart:io';
 
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:stacked/stacked.dart';
 
-class TravelService {
+class TravelService with ReactiveServiceMixin {
+  List<Travel> _travels = [];
+
+  List<Travel> get travels => _travels;
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -22,7 +26,7 @@ class TravelService {
     file.delete();
   }
 
-  Future<List<Travel>> getTravels() async {
+  Future<void> getTravels() async {
     try {
       final file = await _travelsJsonFile;
 
@@ -32,38 +36,40 @@ class TravelService {
       }
 
       Iterable jsonTravels = jsonDecode(contents);
-      List<Travel> travels = List<Travel>.from(jsonTravels.map((model)=> Travel.fromJson(model)));
-      return travels;
+      _travels = List<Travel>.from(jsonTravels.map((model)=> Travel.fromJson(model)));
+      notifyListeners();
     } catch (e) {
-      return [];
+      print('ERROR LOADING TRAVELS');
     }
   }
 
   Future<File> saveTravel(Travel travel) async {
     final file = await _travelsJsonFile;
-    List<Travel> travels = await getTravels();
-    if (travels.isEmpty) {
-      travels.add(travel);
+    if (_travels.isEmpty) {
+      _travels.add(travel);
     } else {
-      int travelIndex = travels.indexWhere((t) => t.id == travel.id);
+      int travelIndex = _travels.indexWhere((t) => t.id == travel.id);
       if (travelIndex == -1) {
-        travels.add(travel);
+        _travels.add(travel);
       } else {
-        travels[travelIndex] = travel;
+        _travels[travelIndex] = travel;
       }
     }
 
     var encodedTravels = jsonEncode(travels.map((e) => e.toJson()).toList());
-    return file.writeAsString(encodedTravels);
+    File result = await file.writeAsString(encodedTravels);
+    notifyListeners();
+    return result;
   }
 
   Future<void> deleteTravel(String travelId) async {
     final file = await _travelsJsonFile;
 
-    List<Travel> travels = await getTravels();
-    travels.removeWhere((travel) => travel.id == travelId);
+    _travels.removeWhere((travel) => travel.id == travelId);
 
     var encodedTravels = jsonEncode(travels.map((e) => e.toJson()).toList());
-    return file.writeAsString(encodedTravels);
+
+    await file.writeAsString(encodedTravels);
+    notifyListeners();
   }
 }

@@ -3,15 +3,15 @@ import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/services/travel_service.dart';
 import 'package:stacked/stacked.dart';
 
-class TravelListModel extends BaseViewModel {
+class TravelListModel extends ReactiveViewModel {
   TravelService _travelService = locator<TravelService>();
 
-  List<Travel> _travels = [];
+  @override
+  List<ReactiveServiceMixin> get reactiveServices => [_travelService];
 
-  List<Travel> get travels => _travels;
+  List<Travel> get travels => _travelService.travels;
 
   Future<void> loadTravels() async {
-    _travels = await runBusyFuture(_travelService.getTravels());
-    // TODO: gestire l'errore
+    runBusyFuture(_travelService.getTravels());
   }
 }
