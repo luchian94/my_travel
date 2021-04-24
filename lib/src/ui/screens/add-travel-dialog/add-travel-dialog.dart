@@ -137,7 +137,10 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
           ),
         );
       }).toList(),
-      icon: Icon(Icons.public, color: Colors.white, size: 28.0,),
+      icon: Padding(
+        padding: const EdgeInsets.only(right: 16.0),
+        child: Icon(Icons.public, color: Colors.white, size: 28.0,),
+      ),
       dropdownColor: Colors.black,
       onChanged: (selectedCountry) {
         model.countryValue = selectedCountry;
