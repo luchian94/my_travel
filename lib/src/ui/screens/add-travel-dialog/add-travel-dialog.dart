@@ -23,9 +23,9 @@ class AddTravelDialog extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Text('Aggiungi viaggio',
-                        style: GoogleFonts.lobster(
+                        style: GoogleFonts.euphoriaScript(
                             textStyle: TextStyle(
-                                fontSize: 24.0, color: Colors.white))),
+                                fontSize: 30.0, color: Colors.white))),
                   ),
                 ),
                 IconButton(

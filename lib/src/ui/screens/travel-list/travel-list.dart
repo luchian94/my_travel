@@ -27,9 +27,9 @@ class TravelList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(title,
-                      style: GoogleFonts.lobster(
+                      style: GoogleFonts.euphoriaScript(
                           textStyle:
-                          TextStyle(fontSize: 34.0, color: Colors.white))),
+                          TextStyle(fontSize: 40.0, color: Colors.white))),
                 ],
               )),
           body: TravelListBody(
