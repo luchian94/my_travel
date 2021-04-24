@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/models/travel_model.dart';
@@ -67,7 +65,7 @@ class AddTravelModel extends BaseViewModel {
     }
   }
 
-  Future<void> saveTravel() async {
+  Future<Travel> saveTravel() async {
     // await _travelService.clearJson(); // per svuotare il json
     Travel travel = new Travel(
       id: _travelId,
@@ -80,5 +78,6 @@ class AddTravelModel extends BaseViewModel {
       previewPosition: previewImgPosition,
     );
     await _travelService.saveTravel(travel);
+    return travel;
   }
 }

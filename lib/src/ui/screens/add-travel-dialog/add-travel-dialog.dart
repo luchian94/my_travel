@@ -39,8 +39,11 @@ class AddTravelDialog extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.save),
                   onPressed: () async {
-                    await model.saveTravel();
-                    Navigator.of(context).pop('refresh');
+                    Travel savedTravel = await model.saveTravel();
+                    Navigator.of(context).pop({
+                      'action': 'refresh',
+                      'data': savedTravel
+                    });
                   },
                 )
               ],

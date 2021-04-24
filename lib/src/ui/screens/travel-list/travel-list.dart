@@ -41,14 +41,14 @@ class TravelList extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              var result = await Navigator.push(
+              dynamic result = await Navigator.push(
                 context,
-                MaterialPageRoute<String>(
+                MaterialPageRoute(
                   builder: (BuildContext context) => AddTravelDialog(),
                   fullscreenDialog: true,
                 ),
               );
-              if (result == 'refresh') {
+              if (result != null && result['action'] == 'refresh') {
                 model.loadTravels();
               }
             },

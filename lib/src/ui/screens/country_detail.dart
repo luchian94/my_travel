@@ -17,7 +17,7 @@ class CountryDetail extends StatefulWidget {
 
   CountryDetail({
     Key key,
-    this.travel,
+    @required this.travel,
     this.isEdit = false,
     this.disableMenu = false,
     this.canDelete = false,
@@ -29,6 +29,7 @@ class CountryDetail extends StatefulWidget {
 }
 
 class _CountryDetailState extends State<CountryDetail> {
+  Travel detailTravel;
   PhotoViewController photoViewController;
   double imgScale = 1.0;
   Offset imgPosition;
@@ -37,10 +38,13 @@ class _CountryDetailState extends State<CountryDetail> {
   @override
   void initState() {
     super.initState();
+
+    detailTravel = widget.travel;
+
     photoViewController = PhotoViewController()
       ..outputStateStream.listen(listener);
-    if (widget.travel != null && widget.travel.position != null) {
-      photoViewController.position = widget.travel.position;
+    if (detailTravel != null && detailTravel.position != null) {
+      photoViewController.position = detailTravel.position;
     }
   }
 
@@ -58,7 +62,7 @@ class _CountryDetailState extends State<CountryDetail> {
   @override
   Widget build(BuildContext context) {
     DaysUntil daysUntil =
-        widget.travel?.date != null ? getDaysUntil(widget.travel.date) : null;
+        detailTravel?.date != null ? getDaysUntil(detailTravel.date) : null;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -80,12 +84,12 @@ class _CountryDetailState extends State<CountryDetail> {
                 child: PhotoView(
                   controller: photoViewController,
                   disableGestures: !widget.isEdit,
-                  initialScale: widget.travel != null
-                      ? widget.travel.scale
+                  initialScale: detailTravel != null
+                      ? detailTravel.scale
                       : PhotoViewComputedScale.covered,
                   minScale: PhotoViewComputedScale.covered,
-                  imageProvider: widget.travel?.img != null
-                      ? widget.travel.img
+                  imageProvider: detailTravel?.img != null
+                      ? detailTravel.img
                       : NetworkImage(
                           'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg'),
                 ),
@@ -129,7 +133,7 @@ class _CountryDetailState extends State<CountryDetail> {
                     ),
                   ),
                   Text(
-                    widget.travel?.countryName ?? '',
+                    detailTravel?.countryName ?? '',
                     style: new TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w300,
@@ -173,21 +177,24 @@ class _CountryDetailState extends State<CountryDetail> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          await Navigator.push(
+                          dynamic result = await Navigator.push(
                             context,
-                            MaterialPageRoute<String>(
-                              builder: (BuildContext context) =>
-                                  AddTravelDialog(travel: widget.travel),
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => AddTravelDialog(travel: detailTravel),
                               fullscreenDialog: true,
                             ),
                           );
+                          if (result != null && result['action'] == 'refresh' && result['data'] != null) {
+                            setState(() {
+                              detailTravel = result['data'];
+                            });
+                          }
                         },
                         child: Icon(Icons.edit, color: Colors.white, size: 30.0),
                       ),
                       InkWell(
                         onTap: () async {
-                          await locator<TravelService>()
-                              .deleteTravel(widget.travel.id);
+                          await locator<TravelService>().deleteTravel(detailTravel.id);
                           Navigator.of(context).pop('refresh');
                         },
                         child: Icon(Icons.delete, color: Colors.white, size: 30.0),
