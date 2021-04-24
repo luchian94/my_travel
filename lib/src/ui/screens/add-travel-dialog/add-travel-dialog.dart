@@ -22,7 +22,7 @@ class AddTravelDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<AddTravelModel>.nonReactive(
       viewModelBuilder: () => AddTravelModel(),
-      onModelReady: (model) => model.setTravelData(travel),
+      onModelReady: (model) => model.init(travel),
       builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(
@@ -40,10 +40,8 @@ class AddTravelDialog extends StatelessWidget {
                   icon: Icon(Icons.save),
                   onPressed: () async {
                     Travel savedTravel = await model.saveTravel();
-                    Navigator.of(context).pop({
-                      'action': 'refresh',
-                      'data': savedTravel
-                    });
+                    Navigator.of(context)
+                        .pop({'action': 'refresh', 'data': savedTravel});
                   },
                 )
               ],
@@ -87,7 +85,7 @@ class NewTravelFormState extends State<NewTravelForm> {
                   ),
                 ),
               ),
-              child: CountryInput(),
+              child: CountryDropdown(),
             ),
             Container(
               decoration: BoxDecoration(
@@ -119,7 +117,36 @@ class NewTravelFormState extends State<NewTravelForm> {
   }
 }
 
-class CountryInput extends HookViewModelWidget<AddTravelModel> {
+class CountryDropdown extends ViewModelWidget<AddTravelModel> {
+  const CountryDropdown({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, AddTravelModel model) {
+    return new DropdownButtonFormField(
+      decoration: InputDecoration(
+        labelText: 'Paese',
+        labelStyle: TextStyle(color: Colors.grey),
+      ),
+      value: model.countryValue,
+      items: model.countries.map((country) {
+        return new DropdownMenuItem(
+          value: country,
+          child: new Text(
+            country,
+            style: TextStyle(color: Colors.grey),
+          ),
+        );
+      }).toList(),
+      icon: Icon(Icons.public, color: Colors.white, size: 28.0,),
+      dropdownColor: Colors.black,
+      onChanged: (selectedCountry) {
+        model.countryValue = selectedCountry;
+      },
+    );
+  }
+}
+
+/* class CountryInput extends HookViewModelWidget<AddTravelModel> {
   const CountryInput({Key key}) : super(key: key, reactive: false);
 
   @override
@@ -138,7 +165,7 @@ class CountryInput extends HookViewModelWidget<AddTravelModel> {
       },
     );
   }
-}
+} */
 
 class AddTravelDatepicker extends HookViewModelWidget<AddTravelModel> {
   const AddTravelDatepicker({Key key}) : super(key: key);

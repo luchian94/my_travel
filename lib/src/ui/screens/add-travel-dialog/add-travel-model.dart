@@ -19,6 +19,8 @@ class AddTravelModel extends BaseViewModel {
   bool _isEdit = false;
   MemoryImage _memoryPickedImage;
 
+  List<String> _countries = [];
+
   double imgScale = 1.0;
   Offset imgPosition = Offset(0, 0);
 
@@ -29,6 +31,8 @@ class AddTravelModel extends BaseViewModel {
   DateTime get selectedDate => _selectedDate;
   bool get isEdit => _isEdit;
   MemoryImage get memoryPickedImage => _memoryPickedImage;
+
+  List<String> get countries => _countries;
 
 
   set countryValue(String value) {
@@ -41,6 +45,15 @@ class AddTravelModel extends BaseViewModel {
   }
   set isEdit(bool value) {
     _isEdit = value;
+    notifyListeners();
+  }
+
+  Future<void> init(Travel travel) async {
+    var countriesJson= await _travelService.getCountries();
+    _countries = countriesJson.map((country) {
+      return country['name'] as String;
+    }).toList();
+    await setTravelData(travel);
     notifyListeners();
   }
 
@@ -58,7 +71,6 @@ class AddTravelModel extends BaseViewModel {
       var uuid = Uuid();
       _travelId = uuid.v1();
       _memoryPickedImage = await getPlaceholderImage();
-      notifyListeners();
     }
   }
 
