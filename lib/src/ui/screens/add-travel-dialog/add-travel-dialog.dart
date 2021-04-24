@@ -11,10 +11,18 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
 class AddTravelDialog extends StatelessWidget {
+  final Travel travel;
+
+  AddTravelDialog({
+    Key key,
+    this.travel,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AddTravelModel>.nonReactive(
       viewModelBuilder: () => AddTravelModel(),
+      onModelReady: (model) => model.setTravelData(travel),
       builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(
@@ -22,7 +30,7 @@ class AddTravelDialog extends StatelessWidget {
               children: [
                 Expanded(
                   child: Center(
-                    child: Text('Aggiungi viaggio',
+                    child: Text('Viaggio',
                         style: GoogleFonts.euphoriaScript(
                             textStyle: TextStyle(
                                 fontSize: 30.0, color: Colors.white))),
@@ -68,15 +76,16 @@ class NewTravelFormState extends State<NewTravelForm> {
           key: _formKey,
           child: Column(children: <Widget>[
             Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 2.0,
-                    ),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 2.0,
                   ),
                 ),
-                child: CountryInput()),
+              ),
+              child: CountryInput(),
+            ),
             Container(
               decoration: BoxDecoration(
                 border: Border(
@@ -113,6 +122,9 @@ class CountryInput extends HookViewModelWidget<AddTravelModel> {
   @override
   Widget buildViewModelWidget(BuildContext context, AddTravelModel model) {
     TextEditingController countryController = useTextEditingController();
+    if (model.countryValue != null) {
+      countryController.text = model.countryValue;
+    }
 
     return TextInput(
       label: 'Paese',
@@ -233,6 +245,7 @@ class BuildPopupDialog extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => CountryDetail(
                     isEdit: true,
+                    disableMenu: true,
                     onSaved: (savedData) {
                       if (savedData != null) {
                         model.imgScale = savedData['imgScale'];

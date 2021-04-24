@@ -12,10 +12,11 @@ class AddTravelModel extends BaseViewModel {
   MediaService _mediaService = locator<MediaService>();
   TravelService _travelService = locator<TravelService>();
 
+  String _travelId;
   String _countryValue;
   DateTime _selectedDate = DateTime.now();
   bool _isEdit = false;
-  File _pickedImage;
+  MemoryImage _memoryPickedImage;
 
   double imgScale = 1.0;
   Offset imgPosition = Offset(0, 0);
@@ -26,8 +27,7 @@ class AddTravelModel extends BaseViewModel {
   String get countryValue => _countryValue;
   DateTime get selectedDate => _selectedDate;
   bool get isEdit => _isEdit;
-  File get pickedImage => _pickedImage;
-  MemoryImage get memoryPickedImage => _pickedImage != null ? MemoryImage(_pickedImage.readAsBytesSync()) : null;
+  MemoryImage get memoryPickedImage => _memoryPickedImage;
 
 
   set countryValue(String value) {
@@ -42,23 +42,35 @@ class AddTravelModel extends BaseViewModel {
     _isEdit = value;
     notifyListeners();
   }
-  set pickedImage(File value) {
-    _pickedImage = value;
-    notifyListeners();
+
+  setTravelData(Travel travel) {
+    if (travel != null) {
+      _travelId = travel.id;
+      _countryValue = travel.countryName;
+      _selectedDate = travel.date;
+      imgScale = travel.scale;
+      imgPosition = travel.position;
+      previewImgScale = travel.previewScale;
+      previewImgPosition = travel.previewPosition;
+      _memoryPickedImage = travel.img;
+    } else {
+      var uuid = Uuid();
+      _travelId = uuid.v1();
+    }
   }
 
   Future<void> pickImage() async {
     var picked = await _mediaService.pickImage();
     if (picked != null) {
-      pickedImage = picked;
+      _memoryPickedImage = MemoryImage(picked.readAsBytesSync());
+      notifyListeners();
     }
   }
 
   Future<void> saveTravel() async {
     // await _travelService.clearJson(); // per svuotare il json
-    var uuid = Uuid();
     Travel travel = new Travel(
-      id: uuid.v1(),
+      id: _travelId,
       countryName: countryValue,
       img: memoryPickedImage,
       date: selectedDate,

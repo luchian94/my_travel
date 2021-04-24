@@ -43,7 +43,6 @@ class TravelListBody extends ViewModelWidget<TravelListModel> {
               context,
               MaterialPageRoute(
                 builder: (context) => CountryDetail(
-                  isEdit: true,
                   canDelete: true,
                   travel: travel,
                   onSaved: (savedData) async {
