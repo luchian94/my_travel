@@ -19,24 +19,24 @@ class TextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: TextStyle(color: Colors.grey),
+      style: TextStyle(color: Colors.white),
       readOnly: readonly,
       controller: controller,
       onChanged: valueChanged,
       decoration: InputDecoration(
-        labelStyle: TextStyle(color: Colors.grey),
-        hintStyle: TextStyle(color: Colors.grey),
+        labelStyle: TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: Colors.white),
         labelText: label,
         hintText: placeholder,
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.grey,
+            color: Colors.white,
             width: 2.0,
           ),
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.grey,
+            color: Colors.white,
             width: 2.0,
           ),
         ),

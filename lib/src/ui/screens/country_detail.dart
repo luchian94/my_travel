@@ -3,6 +3,7 @@ import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/models/days_until_model.dart';
 import 'package:my_travel/src/services/travel_service.dart';
+import 'package:my_travel/src/ui/widgets/flag/flag.dart';
 import 'package:my_travel/src/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -118,24 +119,41 @@ class _CountryDetailState extends State<CountryDetail> {
                       fontSize: 60.0,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Text(
-                      daysUntil.expireLabel,
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w100,
-                        fontSize: 15.0,
+                  if (daysUntil.expireLabel != '')
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        daysUntil.expireLabel,
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w100,
+                          fontSize: 15.0,
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    detailTravel?.countryName ?? '',
-                    style: new TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 16.0,
-                    ),
+                  if (detailTravel?.country?.alpha != null && detailTravel?.country?.name != null)
+                    Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (detailTravel?.country?.alpha != null)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: Flag(
+                            detailTravel?.country?.alpha,
+                            width: 25.0,
+                            height: 25.0,
+                          ),
+                        ),
+                      if (detailTravel?.country?.name != null)
+                        Text(
+                          detailTravel?.country?.name ?? '',
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                    ],
                   ),
                 ],
               ),

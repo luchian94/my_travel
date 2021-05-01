@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:my_travel/src/locator/locator.dart';
+import 'package:my_travel/src/models/country_model.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/services/media_service.dart';
 import 'package:my_travel/src/services/travel_service.dart';
@@ -14,12 +15,12 @@ class AddTravelModel extends BaseViewModel {
   TravelService _travelService = locator<TravelService>();
 
   String _travelId;
-  String _countryValue;
+  Country _countryValue;
   DateTime _selectedDate = DateTime.now();
   bool _isEdit = false;
   MemoryImage _memoryPickedImage;
 
-  List<String> _countries = [];
+  List<Country> _countries = [];
 
   double imgScale = 1.0;
   Offset imgPosition = Offset(0, 0);
@@ -27,15 +28,15 @@ class AddTravelModel extends BaseViewModel {
   double previewImgScale = 1.0;
   Offset previewImgPosition = Offset(0, 0);
 
-  String get countryValue => _countryValue;
+  Country get countryValue => _countryValue;
   DateTime get selectedDate => _selectedDate;
   bool get isEdit => _isEdit;
   MemoryImage get memoryPickedImage => _memoryPickedImage;
 
-  List<String> get countries => _countries;
+  List<Country> get countries => _countries;
 
 
-  set countryValue(String value) {
+  set countryValue(Country value) {
     _countryValue = value;
     notifyListeners();
   }
@@ -50,9 +51,7 @@ class AddTravelModel extends BaseViewModel {
 
   Future<void> init(Travel travel) async {
     var countriesJson= await _travelService.getCountries();
-    _countries = countriesJson.map((country) {
-      return country['name'] as String;
-    }).toList();
+    _countries = List<Country>.from(countriesJson.map((model) => Country.fromJson(model)));
     await setTravelData(travel);
     notifyListeners();
   }
@@ -60,7 +59,7 @@ class AddTravelModel extends BaseViewModel {
   Future<void> setTravelData(Travel travel) async {
     if (travel != null) {
       _travelId = travel.id;
-      _countryValue = travel.countryName;
+      _countryValue = travel.country;
       _selectedDate = travel.date;
       imgScale = travel.scale;
       imgPosition = travel.position;
@@ -93,7 +92,7 @@ class AddTravelModel extends BaseViewModel {
     // await _travelService.clearJson(); // per svuotare il json
     Travel travel = new Travel(
       id: _travelId,
-      countryName: countryValue,
+      country: countryValue,
       img: memoryPickedImage,
       date: selectedDate,
       scale: imgScale,

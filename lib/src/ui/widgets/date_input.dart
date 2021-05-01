@@ -44,8 +44,8 @@ class _DateInputState extends State<DateInput> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2001),
-        lastDate: DateTime(2101));
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2100));
     if (picked != null && picked != selectedDate) {
       setState(() {
         widget.controller.text =
@@ -66,30 +66,19 @@ class _DateInputState extends State<DateInput> {
       children: [
         Expanded(
           child: TextFormField(
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(color: Colors.white),
             readOnly: widget.readonly,
             controller: datePickerController,
             decoration: InputDecoration(
-              labelStyle: TextStyle(color: Colors.grey),
-              hintStyle: TextStyle(color: Colors.grey),
+              labelStyle: TextStyle(color: Colors.white),
+              hintStyle: TextStyle(color: Colors.white),
               labelText: widget.label,
               hintText: widget.placeholder,
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.grey,
-                  width: 2.0,
-                ),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.grey,
-                  width: 2.0,
-                ),
-              ),
+              border: InputBorder.none,
             ),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Inserisci una data';
               }
               return null;
             },

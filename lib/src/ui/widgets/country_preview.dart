@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/models/days_until_model.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-model.dart';
+import 'package:my_travel/src/ui/widgets/flag/flag.dart';
 import 'package:my_travel/src/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:stacked/stacked.dart';
@@ -136,13 +137,26 @@ class _CountryPreviewState extends State<CountryPreview> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      widget.travel.countryName ?? '',
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 16.0,
-                      ),
+                    Row(
+                      children: [
+                        if (widget.travel?.country?.alpha != null)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: Flag(
+                              widget.travel.country?.alpha ?? '',
+                              width: 20.0,
+                              height: 20.0,
+                            ),
+                          ),
+                        Text(
+                          widget.travel.country?.name ?? '',
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
                       widget.travel?.date != null

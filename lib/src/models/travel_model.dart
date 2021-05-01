@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'country_model.dart';
+
 class Travel {
   final String id;
-  String countryName;
+  Country country;
   DateTime date;
   MemoryImage img;
   double scale;
@@ -15,7 +17,7 @@ class Travel {
 
   Travel({
     this.id,
-    this.countryName,
+    this.country,
     this.date,
     this.img,
     this.scale,
@@ -44,7 +46,7 @@ class Travel {
 
     return Travel(
       id: json['id'] as String,
-      countryName: json['countryName'] as String,
+      country: json['country'] != null ? Country.fromJson(json['country']) : null,
       date: DateFormat("yyyy-MM-dd").parse(json['date']),
       img: MemoryImage(base64Decode(json['img'])),
       scale: json['scale'] as double,
@@ -56,7 +58,7 @@ class Travel {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'countryName': countryName,
+        'country': country,
         'date': DateFormat('yyyy-MM-dd').format(date),
         'img': base64Encode(img.bytes),
         'scale': scale,

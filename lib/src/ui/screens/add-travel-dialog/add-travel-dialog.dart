@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_travel/src/models/country_model.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-model.dart';
 import 'package:my_travel/src/ui/screens/country_detail.dart';
 import 'package:my_travel/src/ui/widgets/country_preview.dart';
 import 'package:my_travel/src/ui/widgets/date_input.dart';
-import 'package:my_travel/src/ui/widgets/text_input.dart';
+import 'package:my_travel/src/ui/widgets/flag/flag.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
@@ -80,7 +81,7 @@ class NewTravelFormState extends State<NewTravelForm> {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Colors.grey,
+                    color: Colors.white,
                     width: 2.0,
                   ),
                 ),
@@ -91,7 +92,7 @@ class NewTravelFormState extends State<NewTravelForm> {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Colors.grey,
+                    color: Colors.white,
                     width: 2.0,
                   ),
                 ),
@@ -106,7 +107,7 @@ class NewTravelFormState extends State<NewTravelForm> {
             'Sfondo',
             style: new TextStyle(
               color: Colors.white,
-              fontWeight: FontWeight.w200,
+              fontWeight: FontWeight.w300,
               fontSize: 16.0,
             ),
           ),
@@ -125,21 +126,38 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
     return new DropdownButtonFormField(
       decoration: InputDecoration(
         labelText: 'Paese',
-        labelStyle: TextStyle(color: Colors.grey),
+        labelStyle: TextStyle(color: Colors.white),
       ),
       value: model.countryValue,
       items: model.countries.map((country) {
-        return new DropdownMenuItem(
+        return DropdownMenuItem(
           value: country,
-          child: new Text(
-            country,
-            style: TextStyle(color: Colors.grey),
+          child: Row(
+            children: [
+              if (country?.alpha != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: Flag(
+                  country.alpha,
+                  width: 25.0,
+                  height: 25.0,
+                ),
+              ),
+              Text(
+                country.name,
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
           ),
         );
       }).toList(),
       icon: Padding(
         padding: const EdgeInsets.only(right: 16.0),
-        child: Icon(Icons.public, color: Colors.white, size: 28.0,),
+        child: Icon(
+          Icons.public,
+          color: Colors.white,
+          size: 28.0,
+        ),
       ),
       dropdownColor: Colors.black,
       onChanged: (selectedCountry) {
@@ -148,6 +166,100 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
     );
   }
 }
+/*class CountryDropdown extends ViewModelWidget<AddTravelModel> {
+  const CountryDropdown({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, AddTravelModel model) {
+    return DropdownSearch<Country>(
+      mode: Mode.DIALOG,
+      showSelectedItem: true,
+      items: model.countries,
+      itemAsString: (Country c) => c.name,
+      label: "Paese",
+      hint: "Seleziona il paese",
+      compareFn: (Country c, Country selectedCountry) => c.name == selectedCountry.name,
+      onChanged: (selectedCountry) {
+        model.countryValue = selectedCountry;
+      },
+      popupBackgroundColor: Colors.black,
+      selectedItem: model.countryValue,
+      dropdownSearchDecoration: InputDecoration(
+        labelText: 'Paese',
+        labelStyle: TextStyle(color: Colors.white),
+      ),
+      showSearchBox: true,
+      searchBoxDecoration: InputDecoration(
+        contentPadding: EdgeInsets.all(0),
+        prefixIcon: Icon(Icons.search, color: Colors.white),
+        labelText: 'Cerca...',
+        labelStyle: TextStyle(color: Colors.white),
+      ),
+      dropdownBuilder: _countryDropDown,
+      popupItemBuilder: _countryPopupItemBuilder,
+    );
+  }
+
+  Widget _countryDropDown(
+      BuildContext context, Country item, String itemDesignation) {
+    if (item == null) {
+      return Container();
+    }
+
+    return Container(
+      child: ListTile(
+        contentPadding: EdgeInsets.all(0),
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Flag(
+                item.alpha,
+                width: 25.0,
+                height: 25.0,
+              ),
+            ),
+            Text(
+              item.name,
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _countryPopupItemBuilder(
+      BuildContext context, Country item, bool isSelected) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      decoration: !isSelected
+          ? null
+          : BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: ListTile(
+        selected: isSelected,
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Flag(
+                item.alpha,
+                width: 25.0,
+                height: 25.0,
+              ),
+            ),
+            Text(
+              item.name,
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}*/
 
 /* class CountryInput extends HookViewModelWidget<AddTravelModel> {
   const CountryInput({Key key}) : super(key: key, reactive: false);
@@ -196,7 +308,7 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
   Widget build(BuildContext contextTravelModel, AddTravelModel model) {
     return CountryPreview(
       travel: Travel(
-        countryName: model.countryValue,
+        country: model.countryValue,
         date: model.selectedDate,
         img: model.memoryPickedImage,
       ),
@@ -212,7 +324,7 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
             context: contextTravelModel,
             builder: (BuildContext context) => BuildPopupDialog(
               model: model,
-              countryName: model.countryValue,
+              country: model.countryValue,
               date: model.selectedDate,
               img: model.memoryPickedImage,
             ),
@@ -224,14 +336,14 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
 
 class BuildPopupDialog extends StatelessWidget {
   final AddTravelModel model;
-  final String countryName;
+  final Country country;
   final DateTime date;
   final MemoryImage img;
 
   const BuildPopupDialog({
     Key key,
     this.model,
-    this.countryName,
+    this.country,
     this.date,
     this.img,
   }) : super(key: key);
@@ -286,7 +398,7 @@ class BuildPopupDialog extends StatelessWidget {
                       }
                     },
                     travel: Travel(
-                      countryName: countryName,
+                      country: country,
                       date: date,
                       img: img,
                     ),
