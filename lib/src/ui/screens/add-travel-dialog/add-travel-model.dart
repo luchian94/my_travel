@@ -22,10 +22,10 @@ class AddTravelModel extends BaseViewModel {
 
   List<Country> _countries = [];
 
-  double imgScale = 1.0;
+  double imgScale = 0.0;
   Offset imgPosition = Offset(0, 0);
 
-  double previewImgScale = 1.0;
+  double previewImgScale = 0.0;
   Offset previewImgPosition = Offset(0, 0);
 
   Country get countryValue => _countryValue;

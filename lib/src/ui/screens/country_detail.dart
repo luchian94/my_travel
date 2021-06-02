@@ -67,6 +67,26 @@ class _CountryDetailState extends State<CountryDetail> {
 
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: widget.isEdit
+          ? AppBar(
+              title: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.save),
+                  onPressed: () async {
+                    if (widget.onSaved != null) {
+                      var returnValue = {
+                        'imgScale': imgScale,
+                        'imgPosition': imgPosition
+                      };
+                      widget.onSaved(returnValue);
+                    }
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            )
+          : null,
       body: InkWell(
         onTap: () => {
           if (!widget.disableMenu)
@@ -90,7 +110,8 @@ class _CountryDetailState extends State<CountryDetail> {
                           ? detailTravel.scale
                           : PhotoViewComputedScale.covered,
                       minScale: PhotoViewComputedScale.covered,
-                      imageProvider: detailTravel.img),
+                      imageProvider: detailTravel.img
+                  ),
                 ),
               ),
             Container(
@@ -131,34 +152,35 @@ class _CountryDetailState extends State<CountryDetail> {
                         ),
                       ),
                     ),
-                  if (detailTravel?.country?.alpha != null && detailTravel?.country?.name != null)
+                  if (detailTravel?.country?.alpha != null &&
+                      detailTravel?.country?.name != null)
                     Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (detailTravel?.country?.alpha != null)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: Flag(
-                            detailTravel?.country?.alpha,
-                            width: 25.0,
-                            height: 25.0,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (detailTravel?.country?.alpha != null)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: Flag(
+                              detailTravel?.country?.alpha,
+                              width: 25.0,
+                              height: 25.0,
+                            ),
                           ),
-                        ),
-                      if (detailTravel?.country?.name != null)
-                        Text(
-                          detailTravel?.country?.name ?? '',
-                          style: new TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 16.0,
+                        if (detailTravel?.country?.name != null)
+                          Text(
+                            detailTravel?.country?.name ?? '',
+                            style: new TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 16.0,
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
+                      ],
+                    ),
                 ],
               ),
             ),
-            if (widget.isEdit)
+            /*if (widget.isEdit)
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
@@ -178,7 +200,7 @@ class _CountryDetailState extends State<CountryDetail> {
                     },
                   ),
                 ),
-              ),
+              ),*/
             if (showMenu == true)
               Align(
                 alignment: Alignment.bottomCenter,
@@ -190,6 +212,13 @@ class _CountryDetailState extends State<CountryDetail> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child:
+                            Icon(Icons.close, color: Colors.white, size: 30.0),
+                      ),
                       InkWell(
                         onTap: () async {
                           dynamic result = await Navigator.push(
