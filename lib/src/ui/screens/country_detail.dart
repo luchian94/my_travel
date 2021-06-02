@@ -67,26 +67,6 @@ class _CountryDetailState extends State<CountryDetail> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: widget.isEdit
-          ? AppBar(
-              title: Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(Icons.save),
-                  onPressed: () async {
-                    if (widget.onSaved != null) {
-                      var returnValue = {
-                        'imgScale': imgScale,
-                        'imgPosition': imgPosition
-                      };
-                      widget.onSaved(returnValue);
-                    }
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-            )
-          : null,
       body: InkWell(
         onTap: () => {
           if (!widget.disableMenu)
@@ -110,8 +90,7 @@ class _CountryDetailState extends State<CountryDetail> {
                           ? detailTravel.scale
                           : PhotoViewComputedScale.covered,
                       minScale: PhotoViewComputedScale.covered,
-                      imageProvider: detailTravel.img
-                  ),
+                      imageProvider: detailTravel.img),
                 ),
               ),
             Container(
@@ -180,27 +159,43 @@ class _CountryDetailState extends State<CountryDetail> {
                 ],
               ),
             ),
-            /*if (widget.isEdit)
+            if (widget.isEdit)
               Align(
                 alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: FloatingActionButton(
-                    heroTag: "saveBtn",
-                    child: Icon(Icons.save),
-                    onPressed: () {
-                      if (widget.onSaved != null) {
-                        var returnValue = {
-                          'imgScale': imgScale,
-                          'imgPosition': imgPosition
-                        };
-                        widget.onSaved(returnValue);
-                      }
-                      Navigator.of(context).pop();
-                    },
+                child: Container(
+                  width: double.infinity,
+                  height: 103.0,
+                  padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, left: 16.0, right: 28.0),
+                  decoration: BoxDecoration(color: Colors.black),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child:
+                            Icon(Icons.close, color: Colors.white),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          if (widget.onSaved != null) {
+                            var returnValue = {
+                              'imgScale': imgScale,
+                              'imgPosition': imgPosition
+                            };
+                            widget.onSaved(returnValue);
+                          }
+                          Navigator.of(context).pop();
+                        },
+                        child:
+                        Icon(Icons.save, color: Colors.white),
+                      ),
+                    ],
                   ),
                 ),
-              ),*/
+              ),
             if (showMenu == true)
               Align(
                 alignment: Alignment.bottomCenter,
