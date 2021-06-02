@@ -29,15 +29,27 @@ class _DateInputState extends State<DateInput> {
   TextEditingController datePickerController;
   DateTime selectedDate;
 
+  _setSelectedDate() {
+    selectedDate = widget.initialDate != null ? widget.initialDate : DateTime.now();
+    WidgetsBinding.instance.addPostFrameCallback((_) => datePickerController
+        .text = DateFormat('dd-MM-yyyy').format(selectedDate));
+  }
+
   @override
   void initState() {
     super.initState();
 
-    datePickerController =
-        widget.controller != null ? widget.controller : TextEditingController();
-    datePickerController.text = widget.initialDate != null
-        ? DateFormat('dd-MM-yyyy').format(widget.initialDate)
-        : DateFormat('dd-MM-yyyy').format(DateTime.now());
+    datePickerController = widget.controller != null ? widget.controller : TextEditingController();
+    _setSelectedDate();
+  }
+
+  @override
+  void didUpdateWidget(DateInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialDate != widget.initialDate) {
+      _setSelectedDate();
+    }
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -60,8 +72,6 @@ class _DateInputState extends State<DateInput> {
 
   @override
   Widget build(BuildContext context) {
-    selectedDate =
-        widget.initialDate != null ? widget.initialDate : DateTime.now();
     return Row(
       children: [
         Expanded(
