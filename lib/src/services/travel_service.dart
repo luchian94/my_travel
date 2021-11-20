@@ -44,6 +44,9 @@ class TravelService with ReactiveServiceMixin {
 
       Iterable jsonTravels = jsonDecode(contents);
       _travels = List<Travel>.from(jsonTravels.map((model)=> Travel.fromJson(model)));
+      _travels.sort((a,b) {
+        return b.date.compareTo(a.date);
+      });
       notifyListeners();
     } catch (e) {
       print('ERROR LOADING TRAVELS');
