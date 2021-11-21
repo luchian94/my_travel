@@ -44,9 +44,7 @@ class _CountryDetailState extends State<CountryDetail> {
 
     photoViewController = PhotoViewController()
       ..outputStateStream.listen(listener);
-    if (detailTravel != null && detailTravel.position != null) {
-      photoViewController.position = detailTravel.position;
-    }
+    setPosition(detailTravel);
   }
 
   @override
@@ -58,6 +56,12 @@ class _CountryDetailState extends State<CountryDetail> {
   void listener(PhotoViewControllerValue value) {
     imgScale = value.scale;
     imgPosition = value.position;
+  }
+
+  void setPosition(Travel travel) {
+    if (travel != null && travel.position != null) {
+      photoViewController.position = travel.position;
+    }
   }
 
   @override
@@ -229,6 +233,7 @@ class _CountryDetailState extends State<CountryDetail> {
                               result['data'] != null) {
                             setState(() {
                               detailTravel = result['data'];
+                              setPosition(detailTravel);
                             });
                           }
                         },
