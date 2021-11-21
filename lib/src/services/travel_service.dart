@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
@@ -25,12 +24,6 @@ class TravelService with ReactiveServiceMixin {
   Future<void> clearJson() async {
     final file = await _travelsJsonFile;
     file.delete();
-  }
-
-  Future<List<dynamic>> getCountries() async {
-    final String response = await rootBundle.loadString('assets/json/countries.json');
-    final data = await json.decode(response);
-    return data;
   }
 
   Future<void> getTravels() async {

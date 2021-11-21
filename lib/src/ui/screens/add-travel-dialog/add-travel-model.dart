@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/models/country_model.dart';
 import 'package:my_travel/src/models/travel_model.dart';
+import 'package:my_travel/src/services/countries_service.dart';
 import 'package:my_travel/src/services/media_service.dart';
 import 'package:my_travel/src/services/travel_service.dart';
 import 'package:stacked/stacked.dart';
@@ -13,14 +14,13 @@ import 'package:uuid/uuid.dart';
 class AddTravelModel extends BaseViewModel {
   MediaService _mediaService = locator<MediaService>();
   TravelService _travelService = locator<TravelService>();
+  CountriesService _countriesService = locator<CountriesService>();
 
   String _travelId;
   Country _countryValue;
   DateTime _selectedDate = DateTime.now();
   bool _isEdit = false;
   MemoryImage _memoryPickedImage;
-
-  List<Country> _countries = [];
 
   double imgScale = 0.0;
   Offset imgPosition = Offset(0, 0);
@@ -33,8 +33,7 @@ class AddTravelModel extends BaseViewModel {
   bool get isEdit => _isEdit;
   MemoryImage get memoryPickedImage => _memoryPickedImage;
 
-  List<Country> get countries => _countries;
-
+  List<Country> get countries => _countriesService.countries;
 
   set countryValue(Country value) {
     _countryValue = value;
@@ -50,8 +49,6 @@ class AddTravelModel extends BaseViewModel {
   }
 
   Future<void> init(Travel travel) async {
-    var countriesJson= await _travelService.getCountries();
-    _countries = List<Country>.from(countriesJson.map((model) => Country.fromJson(model)));
     await setTravelData(travel);
     notifyListeners();
   }
