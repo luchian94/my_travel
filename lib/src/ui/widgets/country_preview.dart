@@ -40,15 +40,26 @@ class _CountryPreviewState extends State<CountryPreview> {
   void initState() {
     super.initState();
     controller = PhotoViewController()..outputStateStream.listen(listener);
-    if (widget.travel != null && widget.travel.previewPosition != null) {
-      controller.position = widget.travel.previewPosition;
-    }
+    setPosition();
+  }
+
+  @override
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    setPosition();
   }
 
   @override
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  void setPosition() {
+    if (widget.travel != null && widget.travel.previewPosition != null) {
+      controller.position = widget.travel.previewPosition;
+    }
   }
 
   void listener(PhotoViewControllerValue value) {

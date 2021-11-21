@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_travel/src/locator/locator.dart';
-import 'package:my_travel/src/models/country_model.dart';
 import 'package:my_travel/src/models/travel_model.dart';
 import 'package:my_travel/src/services/travel_service.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-model.dart';
@@ -139,14 +138,14 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
           child: Row(
             children: [
               if (country?.alpha != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: Flag(
-                  country.alpha,
-                  width: 25.0,
-                  height: 25.0,
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Flag(
+                    country.alpha,
+                    width: 25.0,
+                    height: 25.0,
+                  ),
                 ),
-              ),
               Text(
                 country.name,
                 style: TextStyle(color: Colors.white),
@@ -312,10 +311,11 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
   Widget build(BuildContext contextTravelModel, AddTravelModel model) {
     return CountryPreview(
       travel: Travel(
-        country: model.countryValue,
-        date: model.selectedDate,
-        img: model.memoryPickedImage,
-      ),
+          country: model.countryValue,
+          date: model.selectedDate,
+          img: model.memoryPickedImage,
+          position: model.imgPosition,
+          previewPosition: model.previewImgPosition),
       isEdit: model.isEdit,
       onSave: () {
         model.isEdit = false;
@@ -328,9 +328,12 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
             context: contextTravelModel,
             builder: (BuildContext context) => BuildPopupDialog(
               model: model,
-              country: model.countryValue,
-              date: model.selectedDate,
-              img: model.memoryPickedImage,
+              travel: Travel(
+                  country: model.countryValue,
+                  date: model.selectedDate,
+                  img: model.memoryPickedImage,
+                  scale: model.imgScale,
+                  position: model.imgPosition),
             ),
           );
       },
@@ -339,17 +342,13 @@ class CountryEditPreview extends ViewModelWidget<AddTravelModel> {
 }
 
 class BuildPopupDialog extends StatelessWidget {
+  final Travel travel;
   final AddTravelModel model;
-  final Country country;
-  final DateTime date;
-  final MemoryImage img;
 
   const BuildPopupDialog({
     Key key,
+    this.travel,
     this.model,
-    this.country,
-    this.date,
-    this.img,
   }) : super(key: key);
 
   @override
@@ -401,11 +400,7 @@ class BuildPopupDialog extends StatelessWidget {
                         model.imgPosition = savedData['imgPosition'];
                       }
                     },
-                    travel: Travel(
-                      country: country,
-                      date: date,
-                      img: img,
-                    ),
+                    travel: travel,
                   ),
                 ),
               );
