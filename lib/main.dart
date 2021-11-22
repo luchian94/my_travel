@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/services/countries_service.dart';
 import 'package:my_travel/src/theme/style.dart';
@@ -18,6 +19,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My Travel',
       theme: appTheme(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', ''),
+        const Locale('it', ''),
+      ],
       home: SafeArea(child: TravelList(title: 'My Travel')),
     );
   }

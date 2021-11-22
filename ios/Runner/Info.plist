@@ -22,6 +22,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Serve per la scattare la foto del viaggio</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Serve per la scattare la foto del viaggio</string>
 	<key>NSPhotoLibraryUsageDescription</key>

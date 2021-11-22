@@ -55,6 +55,7 @@ class _DateInputState extends State<DateInput> {
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
+        locale: const Locale("it","IT"),
         initialDate: selectedDate,
         firstDate: DateTime(1900),
         lastDate: DateTime(2100));
