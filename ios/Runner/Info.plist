@@ -15,16 +15,16 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Serve per la scattare la foto del viaggio</string>
 	<key>NSCameraUsageDescription</key>
+	<string>Serve per la scattare la foto del viaggio</string>
+	<key>NSMicrophoneUsageDescription</key>
 	<string>Serve per la scattare la foto del viaggio</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Serve per la scelta della foto del viaggio</string>
