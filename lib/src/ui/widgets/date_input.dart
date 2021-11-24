@@ -95,8 +95,10 @@ class _DateInputState extends State<DateInput> {
             },
           ),
         ),
-        SizedBox(
+        Container(
+          height: 30.0,
           width: 60.0,
+          padding: const EdgeInsets.only(top: 8.0),
           child: MaterialButton(
             onPressed: () => _selectDate(context),
             child: Icon(Icons.calendar_today, color: Colors.white),

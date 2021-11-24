@@ -84,6 +84,7 @@ class NewTravelFormState extends State<NewTravelForm> {
           key: _formKey,
           child: Column(children: <Widget>[
             Container(
+              height: 50,
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
@@ -134,7 +135,8 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
       showSelectedItems: true,
       items: model.countries,
       itemAsString: (Country c) => c.name,
-      compareFn: (Country c, Country selectedCountry) => c.name == selectedCountry.name,
+      compareFn: (Country c, Country selectedCountry) =>
+          c.name == selectedCountry.name,
       onChanged: (selectedCountry) {
         model.countryValue = selectedCountry;
       },
@@ -142,57 +144,51 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
       selectedItem: model.countryValue,
       showSearchBox: true,
       searchFieldProps: TextFieldProps(
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(0),
-          prefixIcon: Icon(Icons.search, color: Colors.white),
-          labelText: 'Cerca...',
-          labelStyle: TextStyle(color: Colors.white),
-          floatingLabelBehavior: FloatingLabelBehavior.never
-        )
-      ),
+          style: TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(0),
+              prefixIcon: Icon(Icons.search, color: Colors.white),
+              labelText: 'Cerca...',
+              labelStyle: TextStyle(color: Colors.white),
+              floatingLabelBehavior: FloatingLabelBehavior.never)),
       dropdownSearchDecoration: InputDecoration(
         labelText: 'Paese',
-        hintText: 'Seleziona il paese',
-        contentPadding: EdgeInsets.all(0),
-        suffixIcon: Icon(
-          Icons.public,
-          color: Colors.white,
-          size: 28.0,
-        ),
-        suffixIconConstraints: BoxConstraints.expand(width: 60, height: 10),
         labelStyle: TextStyle(color: Colors.white),
+        contentPadding: EdgeInsets.only(bottom: 12.0),
+      ),
+      showAsSuffixIcons: true,
+      dropdownButtonBuilder: (_) => Container(
+        width: 60,
+        child: Icon(Icons.public, color: Colors.white, size: 28.0),
       ),
       dropdownBuilder: _countryDropDown,
       popupItemBuilder: _countryPopupItemBuilder,
     );
   }
 
-  Widget _countryDropDown(
-      BuildContext context, Country item) {
+  Widget _countryDropDown(BuildContext context, Country item) {
     if (item == null) {
-      return Container();
+      return Container(
+          child: Text('Seleziona il paese',
+              style: TextStyle(color: Colors.white)));
     }
 
     return Container(
-      child: ListTile(
-        contentPadding: EdgeInsets.all(0),
-        title: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: Flag(
-                item.alpha,
-                width: 25.0,
-                height: 15.0,
-              ),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: Flag(
+              item.alpha,
+              width: 25.0,
+              height: 15.0,
             ),
-            Text(
-              item.name,
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
+          ),
+          Text(
+            item.name,
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ],
       ),
     );
   }
@@ -204,8 +200,8 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
       decoration: !isSelected
           ? null
           : BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-      ),
+              borderRadius: BorderRadius.circular(5),
+            ),
       child: ListTile(
         selected: isSelected,
         title: Row(
@@ -220,7 +216,7 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
             ),
             Text(
               item.name,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ],
         ),
