@@ -97,7 +97,7 @@ class _DateInputState extends State<DateInput> {
         ),
         Container(
           height: 30.0,
-          width: 60.0,
+          width: 52.0,
           padding: const EdgeInsets.only(top: 8.0),
           child: MaterialButton(
             onPressed: () => _selectDate(context),

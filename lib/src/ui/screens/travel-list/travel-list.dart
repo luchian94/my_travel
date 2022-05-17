@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-dialog.dart';
 import 'package:my_travel/src/ui/screens/travel-list/travel-list-model.dart';
@@ -23,6 +24,10 @@ class TravelList extends StatelessWidget {
           backgroundColor: Colors.black,
           appBar: AppBar(
               backgroundColor: Colors.black,
+              systemOverlayStyle: SystemUiOverlayStyle(
+                systemNavigationBarColor: Colors.green, // Navigation bar
+                statusBarColor: Colors.pink, // Status bar
+              ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
