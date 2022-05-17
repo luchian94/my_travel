@@ -131,8 +131,21 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
   @override
   Widget build(BuildContext context, AddTravelModel model) {
     return DropdownSearch<Country>(
-      mode: Mode.DIALOG,
-      showSelectedItems: true,
+      popupProps: PopupProps.dialog(
+        dialogProps: DialogProps(backgroundColor: Colors.black),
+        showSelectedItems: true,
+        showSearchBox: true,
+        itemBuilder: _countryPopupItemBuilder,
+        searchFieldProps: TextFieldProps(
+          style: TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(0),
+              prefixIcon: Icon(Icons.search, color: Colors.white),
+              labelText: 'Cerca...',
+              labelStyle: TextStyle(color: Colors.white),
+              floatingLabelBehavior: FloatingLabelBehavior.never),
+        ),
+      ),
       items: model.countries,
       itemAsString: (Country c) => c.name,
       compareFn: (Country c, Country selectedCountry) =>
@@ -140,29 +153,20 @@ class CountryDropdown extends ViewModelWidget<AddTravelModel> {
       onChanged: (selectedCountry) {
         model.countryValue = selectedCountry;
       },
-      popupBackgroundColor: Colors.black,
+      // popupBackgroundColor: Colors.black,
       selectedItem: model.countryValue,
-      showSearchBox: true,
-      searchFieldProps: TextFieldProps(
-          style: TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(0),
-              prefixIcon: Icon(Icons.search, color: Colors.white),
-              labelText: 'Cerca...',
-              labelStyle: TextStyle(color: Colors.white),
-              floatingLabelBehavior: FloatingLabelBehavior.never)),
       dropdownSearchDecoration: InputDecoration(
         labelText: 'Paese',
         labelStyle: TextStyle(color: Colors.white),
         contentPadding: EdgeInsets.only(bottom: 12.0),
       ),
-      showAsSuffixIcons: true,
-      dropdownButtonBuilder: (_) => Container(
-        width: 60,
-        child: Icon(Icons.public, color: Colors.white, size: 28.0),
+      dropdownButtonProps: IconButtonProps(
+        icon: Container(
+          width: 60,
+          child: Icon(Icons.public, color: Colors.white, size: 28.0),
+        ),
       ),
       dropdownBuilder: _countryDropDown,
-      popupItemBuilder: _countryPopupItemBuilder,
     );
   }
 
