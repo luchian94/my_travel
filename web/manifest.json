@@ -1,6 +1,6 @@
 {
-    "name": "my_travel",
-    "short_name": "my_travel",
+    "name": "MyTravel",
+    "short_name": "MyTravel",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
