@@ -78,9 +78,9 @@ class AddTravelModel extends BaseViewModel {
   }
 
   Future<void> pickImage() async {
-    var picked = await _mediaService.pickImage();
-    if (picked != null) {
-      _memoryPickedImage = MemoryImage(picked.readAsBytesSync());
+    var pickedImageBytes = await _mediaService.pickImage();
+    if (pickedImageBytes != null) {
+      _memoryPickedImage = MemoryImage(pickedImageBytes);
       notifyListeners();
     }
   }
