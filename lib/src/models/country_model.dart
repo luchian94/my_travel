@@ -1,5 +1,13 @@
+import 'package:hive/hive.dart';
+
+part 'country_model.g.dart';
+
+@HiveType(typeId: 2)
 class Country {
+  @HiveField(0)
   final String name;
+
+  @HiveField(1)
   final String alpha;
 
   Country(this.name, this.alpha);

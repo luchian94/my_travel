@@ -1,18 +1,34 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
 
 import 'country_model.dart';
 
-class Travel {
-  final String id;
+part 'travel_model.g.dart';
+
+@HiveType(typeId: 1)
+class Travel extends HiveObject {
+  @HiveField(0)
+  String id;
+
+  @HiveField(1)
   Country country;
+
+  @HiveField(2)
   DateTime date;
+
+  @HiveField(3)
   MemoryImage img;
+
+  @HiveField(4)
   double scale;
+
+  @HiveField(5)
   double previewScale;
+
+  @HiveField(6)
   Offset position;
+
+  @HiveField(7)
   Offset previewPosition;
 
   Travel({
@@ -26,7 +42,7 @@ class Travel {
     this.previewPosition,
   });
 
-  factory Travel.fromJson(Map<String, dynamic> json) {
+  /*factory Travel.fromJson(Map<String, dynamic> json) {
     List<String> positionVal =
         json['position'] != null ? (json['position'] as String).split('#') : [];
     double positionDx =
@@ -71,5 +87,5 @@ class Travel {
                 '#' +
                 previewPosition.dy.toString()
             : '',
-      };
+      };*/
 }

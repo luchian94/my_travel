@@ -2,10 +2,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/models/country_model.dart';
 import 'package:my_travel/src/models/travel_model.dart';
-import 'package:my_travel/src/services/travel_service.dart';
 import 'package:my_travel/src/ui/screens/add-travel-dialog/add-travel-model.dart';
 import 'package:my_travel/src/ui/screens/country_detail.dart';
 import 'package:my_travel/src/ui/widgets/country_preview.dart';
@@ -15,7 +13,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
 class AddTravelDialog extends StatelessWidget {
-  final TravelService _travelService = locator<TravelService>();
   final Travel travel;
 
   AddTravelDialog({
@@ -46,7 +43,6 @@ class AddTravelDialog extends StatelessWidget {
                   icon: Icon(Icons.save),
                   onPressed: () async {
                     Travel savedTravel = await model.saveTravel();
-                    _travelService.getTravels();
                     Navigator.of(context)
                         .pop({'action': 'refresh', 'data': savedTravel});
                   },
