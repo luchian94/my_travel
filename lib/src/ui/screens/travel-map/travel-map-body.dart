@@ -24,8 +24,8 @@ class TravelMapBody extends ViewModelWidget<TravelMapModel> {
     }
     return SfMapsTheme(
       data: SfMapsThemeData(
-        shapeHoverColor: Colors.white,
-        shapeHoverStrokeColor: Colors.black,
+        shapeHoverColor: Colors.transparent,
+        shapeHoverStrokeColor: Colors.transparent,
         shapeHoverStrokeWidth: 0,
       ),
       child: SfMaps(
