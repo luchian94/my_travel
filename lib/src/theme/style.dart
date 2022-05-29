@@ -21,7 +21,6 @@ const int _blackPrimaryValue = 0xFF000000;
 ThemeData appTheme() {
   return ThemeData(
     primarySwatch: primaryBlack,
-    // primaryColor: Colors.indigo,
     scaffoldBackgroundColor: Colors.black,
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.black

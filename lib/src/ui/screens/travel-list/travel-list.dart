@@ -16,10 +16,6 @@ class TravelList extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
           backgroundColor: Colors.black,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            systemNavigationBarColor: Colors.green, // Navigation bar
-            statusBarColor: Colors.pink, // Status bar
-          ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

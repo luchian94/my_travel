@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget {
         const Locale('it', ''),
       ],
       home: Container(
-          color: Colors.orange,
           child: SafeArea(child: TravelList(title: 'My Travel'))),
     );
   }
