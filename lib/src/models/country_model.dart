@@ -10,15 +10,20 @@ class Country {
   @HiveField(1)
   final String alpha;
 
-  Country(this.name, this.alpha);
+  @HiveField(2)
+  final String iso_3;
+
+  Country(this.name, this.alpha, this.iso_3);
 
   Country.fromJson(Map<String, dynamic> json)
       : name = json['name'],
-        alpha = json['alpha2'];
+        alpha = json['alpha2'],
+        iso_3 = json['alpha3'];
 
   Map<String, dynamic> toJson() => {
     'name': name,
     'alpha2': alpha,
+    'alpha3': iso_3,
   };
 
   @override

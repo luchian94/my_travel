@@ -9,6 +9,10 @@ class TravelService with ReactiveServiceMixin {
 
   List<Travel> get travels => _travels;
 
+  Future<List<Travel>> getTravels() async {
+    return List<Travel>.from(_travelsBox.values);
+  }
+
   Future<void> saveTravel(Travel travel) async {
     _travelsBox.put(travel.id, travel);
   }

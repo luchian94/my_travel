@@ -19,17 +19,20 @@ class CountryAdapter extends TypeAdapter<Country> {
     return Country(
       fields[0] as String,
       fields[1] as String,
+      fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Country obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.alpha);
+      ..write(obj.alpha)
+      ..writeByte(2)
+      ..write(obj.iso_3);
   }
 
   @override
