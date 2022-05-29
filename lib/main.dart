@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:my_travel/src/locator/locator.dart';
 import 'package:my_travel/src/services/countries_service.dart';
 import 'package:my_travel/src/theme/style.dart';
@@ -16,6 +17,7 @@ import 'src/models/travel_model.dart';
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  Intl.defaultLocale = 'it_IT';
 
   await Hive.initFlutter();
   Hive.registerAdapter(DateTimeAdapter());

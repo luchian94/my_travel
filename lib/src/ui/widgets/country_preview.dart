@@ -132,7 +132,7 @@ class _CountryPreviewState extends State<CountryPreview> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 2.0),
+                      padding: const EdgeInsets.only(bottom: 3.0),
                       child: Text(
                         daysUntil.expireLabel,
                         style: new TextStyle(
